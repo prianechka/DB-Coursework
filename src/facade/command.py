@@ -1,5 +1,5 @@
 import sys
-sys.path.append("/home/prianechka/Education/BMSTU/DB-CourseWork/src/DataBase/managers")
+sys.path.append("/home/prianechka/Education/BMSTU/DB-CourseWork/DB-Coursework/src/managers")
 from managers.connectionManager import ConnectionManager
 
 
@@ -72,3 +72,38 @@ class AddGameCommand(BaseCommand):
     
     def execute(self, id1Team, id2Team, p1, p2, p3, dateMatch, timeMatch):
         return ConnectionManager().addGame(id1Team, id2Team, p1, p2, p3, dateMatch, timeMatch)
+
+class ViewGamesAnalyze(BaseCommand):
+    def __init__(self):
+        super().__init__()
+    
+    def execute(self, teamName):
+        return ConnectionManager().viewGamesAnalyze(teamName)
+
+class ChangeGameStatus(BaseCommand):
+    def __init__(self):
+        super().__init__()
+    
+    def execute(self, id):
+        return ConnectionManager().changeGameStatus(id)
+
+class ChangeGameResult(BaseCommand):
+    def __init__(self):
+        super().__init__()
+    
+    def execute(self, id, result):
+        return ConnectionManager().changeGameResult(id, result)
+
+class FindProbs(BaseCommand):
+    def __init__(self):
+        super().__init__()
+    
+    def execute(self, p1, p2, p3):
+        return ConnectionManager().findProbs(p1, p2, p3)
+
+class EditCoefCommand(BaseCommand):
+    def __init__(self):
+        super().__init__()
+    
+    def execute(self, id, p1, x, p2):
+        return ConnectionManager().changeGameCoef(id, p1, x, p2)

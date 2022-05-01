@@ -74,3 +74,28 @@ AS $$
         WHERE W.WebUserLogin = login;
     END
 $$ language plpgsql;
+
+CREATE OR REPLACE FUNCTION BK.viewGamesAnalyze(name TEXT)
+RETURNS TABLE (
+                id int,
+                matchdate DATE,
+                matchtime TIME,
+                t1name TEXT,
+                t2name TEXT,
+                status TEXT,
+                result TEXT,
+                w1cf FLOAT,
+                xcf FLOAT,
+                w2cf FLOAT
+              )
+AS $$
+    BEGIN
+        RETURN QUERY
+        SELECT gameid, gamedate, gametime, tmp.teamname, T2.teamname, gamestatus, gameresult, w1coef, drawcoef, w2coef
+            FROM (BK.Game as G JOIN BK.Team T on (t.teamid = G.team1id)) as tmp JOIN BK.Team as T2 on (tmp.team2id = T2.teamid)
+        WHERE (tmp.teamname like name OR T2.teamname like name) AND (gamestatus = 'Live' OR gamestatus = 'Plain')
+        ORDER BY gamedate, gametime;
+    END;
+$$ language plpgsql;
+
+SELECT * FROM BK.viewGamesAnalyze('%')

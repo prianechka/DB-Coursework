@@ -2,6 +2,7 @@ import sys
 from controllers.controllers import *
 sys.path.append("./facade")
 sys.path.append("./controllers")
+sys.path.append("./managers")
 from PyQt5 import QtWidgets, uic, QtGui
 from PyQt5.QtCore import Qt
 from tabulate import tabulate
@@ -51,6 +52,11 @@ class MyWindow(QtWidgets.QMainWindow):
     def addMatchUI(self):
         uic.loadUi("./ui/addMatch.ui", self)
         self.controller = AddMatchUIController(self)
+        self.controller.execute()
+    
+    def checkLineUI(self):
+        uic.loadUi("./ui/lineAnaliticUI.ui", self)
+        self.controller = LineAnaliticUIController(self)
         self.controller.execute()
 
 

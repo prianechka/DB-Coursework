@@ -139,3 +139,12 @@ class ValidateRegistrateManager(BaseValidateManager):
         else:
             return OK
     
+class ValidateCoefManager(BaseValidateManager):
+    def __init__(self):
+        super().__init__()
+    
+    def validate(self, p1, p2, p3):
+        if np.abs(np.sum([p1, p2, p3]) - 100) < EPS:
+            return OK
+        else:
+            return BAD_COEFS

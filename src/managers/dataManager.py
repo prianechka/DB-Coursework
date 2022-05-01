@@ -1,13 +1,7 @@
-from datetime import date
-from ftplib import error_perm
-from http.client import OK
-from os import stat
-
-from matplotlib import use
-from BaseManager import BaseManager
+from managers.BaseManager import BaseManager
 import psycopg2
 import sys
-sys.path.append("/home/prianechka/Education/BMSTU/DB-CourseWork/src/DataBase/")
+sys.path.append("/home/prianechka/Education/BMSTU/DB-CourseWork/DB-Coursework/src/")
 from errors import *
 from datetime import date
 
@@ -119,3 +113,24 @@ class DataManager(BaseManager):
         executeString = f"CALL BK.addGame({id1Team}, {id2Team}, {p1}, {p2}, {p3}, '{dateMatch}', '{timeMatch}')"
 
         return self.execute(executeString)
+    
+    def viewGamesAnalyze(self, teamName):
+        executeString = f"SELECT * FROM BK.viewGamesAnalyze('{teamName}')"
+
+        return self.execute(executeString)
+    
+    def changeGameStatus(self, id):
+        executeString = f"CALL BK.changeGameState({id});"
+
+        return self.execute(executeString)
+
+    def changeGameResult(self, id, result):
+        executeString = f"CALL BK.changeGameResult({id}, '{result}');"
+
+        return self.execute(executeString)
+    
+    def changeGameCoef(self, id, w1, x, w2):
+        executeString = f"CALL BK.changeGameCoef({id}, {w1}, {x}, {w2});"
+
+        return self.execute(executeString)
+

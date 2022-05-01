@@ -49,3 +49,45 @@ AS
         ('Plain', id1, id2, w1, x, w2, '0:0', matchDate, matchTime);
     END;
 $$ language plpgsql;
+
+CREATE OR REPLACE PROCEDURE BK.changeGameState(id INT)
+AS
+    $$
+    DECLARE
+        stat TEXT;
+    BEGIN
+        SELECT G.gamestatus into stat FROM BK.game as G WHERE G.gameid = id;
+        if stat = 'Live'
+            THEN stat = 'Finished';
+        END if;
+        if stat = 'Plain' THEN
+            stat = 'Live';
+        END if;
+
+        UPDATE BK.game
+        SET gamestatus = stat
+        WHERE gameid = id;
+    END;
+    $$ language plpgsql;
+
+CREATE OR REPLACE PROCEDURE BK.changeGameResult(id INT, result TEXT)
+AS
+    $$
+    BEGIN
+        UPDATE BK.game
+        SET gameresult = result
+        WHERE gameid = id;
+    END;
+    $$ language plpgsql;
+
+CREATE OR REPLACE PROCEDURE BK.changeGameCoef(id INT, w1 FLOAT, x FLOAT, w2 FLOAT)
+AS
+    $$
+    BEGIN
+        UPDATE BK.game
+        SET w1coef = w1, w2coef = w2, drawcoef = x
+        WHERE gameid = id;
+    END;
+    $$ language plpgsql;
+
+CALL BK.changeGameCoef(11, 2.86, 2.86, 2.86);

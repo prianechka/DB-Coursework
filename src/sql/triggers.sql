@@ -27,16 +27,16 @@ AS
     BEGIN
         -- Обновляем по ID матча строки ставок с этим матчем
         UPDATE Bk.Bet as B
-        SET B.BetStatus = 1 AND B.PayoutAmount = B.BetSize * B.Coef
+        SET B.BetStatus = 1 AND B.PayoutAmount = B.BetSize * B.coef
         WHERE B.GameID = new.GameID AND B.ChoosedResult = new.GameResult;
 
         UPDATE BK.Bet as B
-        SET B.BetStatus = -1
+        SET B.betstatus = -1
         WHERE B.GameID = new.GameID AND B.ChoosedResult != new.GameResult;
 
         -- Меняем количество средств на счету игроков
         UPDATE BK.Account as Acc
-        SET Acc.Balance = Acc.Balance + BK.Bet.PayoutAmount
+        SET balance = Acc.Balance + BK.Bet.PayoutAmount
         WHERE BK.Bet.GameID = new.GameID AND Acc.AccountID = new.AccountID;
         return new;
 
