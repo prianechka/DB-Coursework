@@ -98,4 +98,58 @@ AS $$
     END;
 $$ language plpgsql;
 
-SELECT * FROM BK.viewGamesAnalyze('%')
+CREATE OR REPLACE FUNCTION BK.GetBetHistory(id INT)
+RETURNS TABLE (
+                betID INT,
+                BetDate TIMESTAMP,
+                firstTeam TEXT,
+                secondTeam TEXT,
+                choosedRes INT,
+                koef FLOAT,
+                betSize FLOAT,
+                result INT,
+                pay FLOAT
+              )
+AS $$
+    BEGIN
+        RETURN QUERY
+        SELECT B.betid, B.betdate, tmp.teamname, t2.teamname, B.choosedresult, B.koef, B.betsize, B.betstatus, B.payoutamount
+        FROM BK.account as A JOIN Bk.Bet as B on (A.accountid = b.accountid)
+            JOIN (BK.Game as G JOIN BK.Team T on (t.teamid = G.team1id)) as tmp on (tmp.gameid = B.gameid)
+                JOIN BK.Team as T2 on (tmp.team2id = T2.teamid)
+        WHERE A.accountid = id
+        ORDER BY B.betdate;
+    end;
+$$ language plpgsql;
+
+CREATE OR REPLACE FUNCTION BK.GetResult(gameResult TEXT)
+RETURNS integer
+AS
+$$
+    DECLARE firstGoal TEXT;
+            secondGoal TEXT;
+            middlePos INT;
+            len INT;
+    BEGIN
+        len = length(gameResult);
+        middlePos = position(':' in gameResult);
+        firstGoal = substring(gameResult from 0 for middlePos);
+        secondGoal = substring(gameResult from middlePos + 1 for len);
+
+        if firstGoal > secondGoal
+            then return 1;
+        end if;
+        if firstGoal < secondGoal
+            then return 2;
+        end if;
+        if firstGoal = secondGoal
+            then return 0;
+        end if;
+    END;
+$$ language plpgsql;
+
+        SELECT B.betid, B.betdate, tmp.teamname, t2.teamname, B.choosedresult, B.betsize, B.betstatus, B.payoutamount
+        FROM BK.account as A JOIN Bk.Bet as B on (A.accountid = b.accountid)
+            JOIN (BK.Game as G JOIN BK.Team T on (t.teamid = G.team1id)) as tmp on (tmp.gameid = B.gameid)
+                JOIN BK.Team as T2 on (tmp.team2id = T2.teamid)
+        WHERE A.accountid = 1;

@@ -1,5 +1,5 @@
-from re import S
-from PyQt5 import QtWidgets, uic, QtGui
+from re import L
+from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QColor, QBrush
 from errors import *
@@ -95,6 +95,9 @@ class MainMenuUIController(BaseController):
         self.UI.balanceLabel.setText(self.UI.balanceLabel.text() + str(balance) + " у.е")
 
         self.UI.exitButton.clicked.connect(lambda: self.exitToMain())
+        self.UI.betButton.clicked.connect(lambda: self.UI.BetUI())
+        self.UI.moneyButton.clicked.connect(lambda: self.UI.donateUI())
+        self.UI.historyButton.clicked.connect(lambda: self.UI.checkHistoryUI())
     
     def exitToMain(self):
         self.UI.Facade.execute(CleanCommand())
@@ -293,6 +296,8 @@ class LineAnaliticUIController(BaseController):
                 self.UI.gameTable.item(curRow, 4).setText("Live")
             elif (curStatus == 'Live'):
                 self.UI.gameTable.removeRow(curRow)
+        else:
+            print(errorCode)
 
     def addGoal(self, team):
         curRow = self.UI.gameTable.selectedItems()[0].row()
@@ -332,5 +337,184 @@ class LineAnaliticUIController(BaseController):
         errorCode, _ = self.UI.Facade.execute(EditCoefCommand(), id, p1, x, p2)
         if errorCode == OK:
             self.UI.checkLineUI()
+        else:
+            print(errorCode)
+
+class betUIController(BaseController):
+
+    def __init__(self, UI) -> None:
+        super().__init__(UI)
+    
+    def execute(self):
+        self.UI.gameTable.setColumnWidth(0, 20)
+        self.UI.gameTable.setColumnWidth(1, 230)
+        self.UI.gameTable.setColumnWidth(2, 400)
+        self.UI.gameTable.setColumnWidth(3, 400)
+        self.UI.gameTable.setColumnWidth(4, 120)
+        self.UI.gameTable.setColumnWidth(5, 120)
+        self.UI.gameTable.setColumnWidth(6, 100)
+        self.UI.gameTable.setColumnWidth(7, 100)
+        self.UI.gameTable.setColumnWidth(8, 105)
+
+        self.createTable('%')
+
+        self.UI.searchButton.clicked.connect(lambda: self.searchByTeam())
+        self.UI.backButton.clicked.connect(lambda: self.UI.MainMenuUI())
+        self.UI.updateButton.clicked.connect(lambda: self.UI.BetUI())
+        self.UI.betButton.clicked.connect(lambda: self.makeBet())
+
+        self.UI.gameTable.clicked.connect(lambda: self.updateBetCoef())
+        self.UI.p1Radio.clicked.connect(lambda: self.updateBetCoef())
+        self.UI.xRadio.clicked.connect(lambda: self.updateBetCoef())
+        self.UI.p2Radio.clicked.connect(lambda: self.updateBetCoef())
+
+        balance, maxbet = self.UI.Facade.execute(GetUserBetInfoCommand())   
+
+        self.UI.balanceLabel.setText("Ваш баланс: " + str(balance))
+        self.UI.maxBetLabel.setText("Максимальная ставка: " + str(maxbet))
+        self.UI.sumBox.setMaximum(maxbet)
+
+    def createTable(self, teamName):
+        errorCode, games = self.UI.Facade.execute(ViewGamesAnalyze(), teamName)
+        if errorCode == OK:
+            N = len(games)
+            self.UI.gameTable.setRowCount(N)
+            for i, el in enumerate(games):
+                self.UI.gameTable.setItem(i, 0, QtWidgets.QTableWidgetItem(str(el[0])))
+                self.UI.gameTable.setItem(i, 1, QtWidgets.QTableWidgetItem(str(el[1]) + " " + str(el[2])))
+                self.UI.gameTable.setItem(i, 2, QtWidgets.QTableWidgetItem(str(el[3])))               
+                self.UI.gameTable.setItem(i, 3, QtWidgets.QTableWidgetItem(str(el[4])))
+                status = str(el[5])     
+                self.UI.gameTable.setItem(i, 4, QtWidgets.QTableWidgetItem(status))
+                if status == "Live":
+                    self.UI.gameTable.item(i, 4).setForeground(QBrush(QColor(255, 0, 0)))
+                self.UI.gameTable.setItem(i, 5, QtWidgets.QTableWidgetItem(str(el[6])))
+                self.UI.gameTable.setItem(i, 6, QtWidgets.QTableWidgetItem(str(round(el[7], 2))))
+                self.UI.gameTable.setItem(i, 7, QtWidgets.QTableWidgetItem(str(round(el[8], 2))))
+                self.UI.gameTable.setItem(i, 8, QtWidgets.QTableWidgetItem(str(round(el[9], 2))))
+        else:
+            print(errorCode)
+        
+    def searchByTeam(self):
+        teamName = self.UI.searchEdit.text()
+        if len(teamName) == 0:
+            self.createTable("%")
+        else:
+            self.createTable("%" + teamName + "%")
+    
+    def updateBetCoef(self):
+        try:
+            curRow = self.UI.gameTable.selectedItems()[0].row()
+            
+            if self.UI.p1Radio.isChecked():
+                k = self.UI.gameTable.item(curRow, 6).text()
+            elif self.UI.xRadio.isChecked():
+                k = self.UI.gameTable.item(curRow, 7).text()
+            elif self.UI.p2Radio.isChecked():
+                k = self.UI.gameTable.item(curRow, 8).text()
+            else:
+                k = ""
+            self.UI.cfLabel.setText("Коэффициент: " + k)
+        except:
+            pass
+    
+    def makeBet(self):
+        try:
+            curRow = self.UI.gameTable.selectedItems()[0].row()
+            id = int(self.UI.gameTable.item(curRow, 0).text())
+            size = float(self.UI.sumBox.value())
+
+            if self.UI.p1Radio.isChecked():
+                k = float(self.UI.gameTable.item(curRow, 6).text())
+                betPredict = 1
+
+            elif self.UI.xRadio.isChecked():
+                k = float(self.UI.gameTable.item(curRow, 7).text())
+                betPredict = 0
+
+            elif self.UI.p2Radio.isChecked():
+                k = float(self.UI.gameTable.item(curRow, 8).text())
+                betPredict = 2
+            else:
+                return
+
+            errorCode, _ = self.UI.Facade.execute(MakeBetCommand(), id, betPredict, size, k)
+            if errorCode == OK:
+                errorCode, _ = self.UI.Facade.execute(UpdateUserConnectionInfoCommand())
+                if errorCode == OK:
+                    print("Я тут!")
+                    self.UI.BetUI()
+        except:
+            pass
+
+class DonateController(BaseController):
+    def __init__(self, UI) -> None:
+        super().__init__(UI)
+    
+    def execute(self):
+        self.UI.donateButton.clicked.connect(lambda: self.donate())
+    
+    def donate(self):
+        value = float(self.UI.sumBox.value())
+        errorCode, _ = self.UI.Facade.execute(DonateCommand(), value)
+        if errorCode == OK:
+            self.UI.MainMenuUI()
+        else:
+            print(errorCode)
+
+class CheckHistoryController(BaseController):
+    def __init__(self, UI) -> None:
+        super().__init__(UI)
+    
+    def execute(self):
+        self.UI.updateButton.clicked.connect(lambda: self.execute())
+        self.UI.backButton.clicked.connect(lambda: self.UI.MainMenuUI())
+        
+        self.UI.gameTable.setColumnWidth(0, 10)
+        self.UI.gameTable.setColumnWidth(1, 320)
+        self.UI.gameTable.setColumnWidth(2, 350)
+        self.UI.gameTable.setColumnWidth(3, 350)
+        self.UI.gameTable.setColumnWidth(4, 95)
+        self.UI.gameTable.setColumnWidth(5, 160)
+        self.UI.gameTable.setColumnWidth(6, 105)
+        self.UI.gameTable.setColumnWidth(7, 130)
+        self.UI.gameTable.setColumnWidth(8, 120)
+
+        self.createTable()
+
+    def createTable(self):
+        errorCode, games = self.UI.Facade.execute(CheckHistoryCommand())
+        if errorCode == OK:
+            N = len(games)
+            self.UI.gameTable.setRowCount(N)
+            for i, el in enumerate(games):
+                self.UI.gameTable.setItem(i, 0, QtWidgets.QTableWidgetItem(str(el[0])))
+                self.UI.gameTable.setItem(i, 1, QtWidgets.QTableWidgetItem(str(el[1])))
+                self.UI.gameTable.setItem(i, 2, QtWidgets.QTableWidgetItem(str(el[2])))               
+                self.UI.gameTable.setItem(i, 3, QtWidgets.QTableWidgetItem(str(el[3])))
+                choosedResult = el[4]
+                if choosedResult == 1:
+                    choosedResult = 'П1'
+                elif choosedResult == 2:
+                    choosedResult = 'П2'
+                elif choosedResult == 0:
+                    choosedResult = 'Х'     
+                self.UI.gameTable.setItem(i, 4, QtWidgets.QTableWidgetItem(choosedResult))
+                self.UI.gameTable.setItem(i, 5, QtWidgets.QTableWidgetItem(str(round(el[5], 2))))
+                self.UI.gameTable.setItem(i, 6, QtWidgets.QTableWidgetItem(str(el[6])))
+                result = el[7]
+                if result == 0:
+                    color = QColor(0, 0, 0)
+                    result = "Принята"
+                elif result == 1:
+                    # self.UI.gameTable.item(i, 7).setForeground(QBrush(QColor(255, 0, 0)))
+                    color = QColor(0, 255, 0)
+                    result = "Выиграна"
+                elif result == -1:
+                    color = QColor(255, 0, 0)
+                    result = "Проиграна"
+                self.UI.gameTable.setItem(i, 7, QtWidgets.QTableWidgetItem(result))
+                self.UI.gameTable.item(i, 7).setForeground(QBrush(color))
+                self.UI.gameTable.setItem(i, 8, QtWidgets.QTableWidgetItem(el[8]))
         else:
             print(errorCode)

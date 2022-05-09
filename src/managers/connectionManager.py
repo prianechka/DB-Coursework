@@ -1,3 +1,4 @@
+import re
 from psycopg2 import Date
 from managers.BaseManager import BaseManager
 from managers.dataManager import DataManager
@@ -41,12 +42,18 @@ class ConnectionManager(BaseManager):
     def UpdateUserConnectInfo(self, login):
         errorCode, webUserID, accountID, userStatus, balance, maxBet = DataManager().getUserInfo(login)
         if errorCode == OK:
+            print(balance)
             self.holder.setUserWebID(webUserID)
             self.holder.setUserAccID(accountID)
             self.holder.setUserStatus(userStatus)
             self.holder.setUserBalance(balance)
             self.holder.setUserMaxBet(maxBet)
+        else:
+            print(errorCode)
     
+    def GetUserBetInfo(self):
+        return self.holder.getUserBalance(), self.holder.getUserMaxBet()
+
     def foldUserInfo(self):
         self.holder.foldSessionInfo()
     
@@ -65,6 +72,8 @@ class ConnectionManager(BaseManager):
         if errorCode == OK:
             p1, p2, p3 = AnalyzerManager().createCoefs(p1, p2, p3)
             return DataManager().addGame(id1Team, id2Team, p1, p2, p3, dateMatch, timeMatch)
+        else:
+            return ADD_MATCH_ERROR, []
     
     def viewGamesAnalyze(self, teamName):
         return DataManager().viewGamesAnalyze(teamName)
@@ -86,3 +95,29 @@ class ConnectionManager(BaseManager):
         
     def findProbs(self, p1, p2, p3):
         return AnalyzerManager().findProbs(p1, p2, p3)
+    
+    def MakeBet(self, choosedGameId, result, betSum, kf):
+        accID = int(self.holder.getUserAccID())
+
+        errorCode, res = DataManager().makeBet(choosedGameId, result, accID, betSum, kf)
+
+        if errorCode == OK:
+            self.holder.setUserBalance(self.holder.getUserBalance() - betSum)
+        
+        return errorCode, res
+    
+    def Donate(self, value):
+        id = self.holder.getUserAccID()
+        
+        errorCode, res = DataManager().Donate(id, value)
+
+        if errorCode == OK:
+            self.holder.setUserBalance(self.holder.getUserBalance() + value)
+        
+        return errorCode, res
+    
+    def CheckHistory(self):
+        id = self.holder.getUserAccID()
+
+        return DataManager().CheckHistory(id)
+

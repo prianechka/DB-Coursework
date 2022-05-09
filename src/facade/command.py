@@ -107,3 +107,38 @@ class EditCoefCommand(BaseCommand):
     
     def execute(self, id, p1, x, p2):
         return ConnectionManager().changeGameCoef(id, p1, x, p2)
+
+class GetUserBetInfoCommand(BaseCommand):
+    def __init__(self):
+        super().__init__()
+    
+    def execute(self):
+        return ConnectionManager().GetUserBetInfo()
+
+class MakeBetCommand(BaseCommand):
+    def __init__(self):
+        super().__init__()
+    
+    def execute(self, choosedGameId, result, betSum, kf):
+        return ConnectionManager().MakeBet(choosedGameId, result, betSum, kf)
+
+class UpdateUserConnectionInfoCommand(BaseCommand):
+    def __init__(self):
+        super().__init__()
+    
+    def execute(self):
+        return ConnectionManager().UpdateUserConnectInfo()
+
+class DonateCommand(BaseCommand):
+    def __init__(self):
+        super().__init__()
+    
+    def execute(self, value):
+        return ConnectionManager().Donate(value)
+
+class CheckHistoryCommand(BaseCommand):
+    def __init__(self):
+        super().__init__()
+    
+    def execute(self):
+        return ConnectionManager().CheckHistory()

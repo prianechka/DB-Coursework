@@ -23,6 +23,11 @@ class MyWindow(QtWidgets.QMainWindow):
         uic.loadUi("./ui/first.ui", self)
         self.controller = FirstMenuUIController(self)
         self.controller.execute()
+    
+    def BetUI(self):
+        uic.loadUi("./ui/betUI.ui", self)
+        self.controller = betUIController(self)
+        self.controller.execute()
 
     def RegistrateUI(self):
         uic.loadUi("./ui/registrate.ui", self)
@@ -58,7 +63,16 @@ class MyWindow(QtWidgets.QMainWindow):
         uic.loadUi("./ui/lineAnaliticUI.ui", self)
         self.controller = LineAnaliticUIController(self)
         self.controller.execute()
-
+    
+    def donateUI(self):
+        uic.loadUi("./ui/donate.ui", self)
+        self.controller = DonateController(self)
+        self.controller.execute()
+    
+    def checkHistoryUI(self):
+        uic.loadUi("./ui/checkHistory.ui", self)
+        self.controller = CheckHistoryController(self)
+        self.controller.execute()
 
 app = QtWidgets.QApplication(sys.argv)
 window = MyWindow()

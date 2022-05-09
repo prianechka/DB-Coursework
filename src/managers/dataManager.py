@@ -133,4 +133,19 @@ class DataManager(BaseManager):
         executeString = f"CALL BK.changeGameCoef({id}, {w1}, {x}, {w2});"
 
         return self.execute(executeString)
+    
+    def makeBet(self, choosedGameId, result, accID, betSum, kf):
+        executeString = f"CALL BK.MakeBet({choosedGameId}, {result}, {accID}, {betSum}, {kf});"
 
+        return self.execute(executeString)
+    
+    def Donate(self, id, value):
+        executeString = f"CALL BK.Donate({id}, {value});"
+
+        print(executeString)
+        return self.execute(executeString)
+    
+    def CheckHistory(self, id):
+        executeString = f"SELECT * FROM BK.GetBetHistory({id})"
+
+        return self.execute(executeString)

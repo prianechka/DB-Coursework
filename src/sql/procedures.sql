@@ -90,4 +90,22 @@ AS
     END;
     $$ language plpgsql;
 
-CALL BK.changeGameCoef(11, 2.86, 2.86, 2.86);
+CREATE OR REPLACE PROCEDURE BK.MakeBet(choosedGameId INT, result INT, accID INT, betSum FLOAT, kf FLOAT)
+AS
+    $$
+    BEGIN
+        INSERT INTO Bk.bet(gameid, choosedresult, accountid, betdate, betsize, koef, betstatus, payoutamount) VALUES
+        (choosedGameId, result, accID, CURRENT_TIMESTAMP, betSum, kf, 0, 0);
+    END;
+    $$ language plpgsql;
+
+
+CREATE OR REPLACE PROCEDURE BK.Donate(id INT, value FLOAT)
+AS
+    $$
+        BEGIN
+            UPDATE Bk.account
+            SET balance = balance + value
+            WHERE accountid = id;
+        END;
+    $$ language plpgsql;
