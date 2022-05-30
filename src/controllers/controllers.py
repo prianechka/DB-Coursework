@@ -1,11 +1,8 @@
-from datetime import datetime
-from re import L
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QColor, QBrush
 from errors import *
 from facade.command import *
-from managers.AnalyzeManager import AnalyzerManager
 from PyQt5.QtWidgets import QMessageBox
 
 class BaseController():

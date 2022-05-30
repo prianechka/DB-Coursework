@@ -1,8 +1,6 @@
-from matplotlib.pyplot import margins
 from BaseManager import BaseManager
-from random import random
 
-class AnalyzerManager(BaseManager):
+class AnalyzerHelper(BaseManager):
     def __init__(self):
         super().__init__()
         self.marge = 0.05

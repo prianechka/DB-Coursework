@@ -4,7 +4,7 @@ sys.path.append("./facade")
 sys.path.append("./controllers")
 sys.path.append("./managers")
 from PyQt5 import QtWidgets, uic
-from facade.Facade import Facade
+from facade.facade import Facade
 from facade.command import *
 from errors import *
 
