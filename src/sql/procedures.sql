@@ -27,7 +27,6 @@ AS
         CALL BK.InsertUsers(mail, login, password);
         SELECT into id W.WebUserID from BK.WebUsers as W WHERE W.webuserlogin = login;
         CALL BK.InsertAccount(id, name, surname, birth, phone, passport, mail);
-        COMMIT;
     END;
 $$ language plpgsql;
 
@@ -109,3 +108,30 @@ AS
             WHERE accountid = id;
         END;
     $$ language plpgsql;
+
+CREATE OR REPLACE PROCEDURE BK.UpdateBalance(id int)
+AS
+    $$
+        DECLARE
+            tmpAcc RECORD;
+            allAccs CURSOR for
+            SELECT Acc.accountid, B.payoutamount
+            FROM BK.bet as B JOIN BK.Account as Acc on Acc.accountid = B.accountid
+            WHERE B.GameID = id and B.betstatus = 1;
+
+        BEGIN
+            OPEN allAccs;
+            LOOP
+                fetch allAccs into tmpAcc;
+                UPDATE Bk.account
+                SET balance = balance + tmpAcc.payoutamount
+                WHERE accountid = tmpAcc.accountid;
+                EXIT When not found;
+            end loop;
+            close allAccs;
+        END;
+$$ language plpgsql;
+
+            SELECT Acc.accountid
+            FROM BK.bet as B JOIN BK.Account as Acc on Acc.accountid = B.accountid
+            WHERE B.GameID = 21 and B.betstatus = 1;

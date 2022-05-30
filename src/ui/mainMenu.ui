@@ -35,8 +35,8 @@
    <widget class="QPushButton" name="historyButton">
     <property name="geometry">
      <rect>
-      <x>270</x>
-      <y>300</y>
+      <x>280</x>
+      <y>250</y>
       <width>261</width>
       <height>51</height>
      </rect>
@@ -74,8 +74,8 @@
    <widget class="QPushButton" name="moneyButton">
     <property name="geometry">
      <rect>
-      <x>270</x>
-      <y>370</y>
+      <x>280</x>
+      <y>330</y>
       <width>261</width>
       <height>51</height>
      </rect>
@@ -90,7 +90,7 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>270</x>
+      <x>280</x>
       <y>440</y>
       <width>261</width>
       <height>51</height>
@@ -98,19 +98,6 @@
     </property>
     <property name="text">
      <string>Ставить!</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="infoButton">
-    <property name="geometry">
-     <rect>
-      <x>270</x>
-      <y>230</y>
-      <width>261</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Личная информация</string>
     </property>
    </widget>
    <widget class="QPushButton" name="exitButton">

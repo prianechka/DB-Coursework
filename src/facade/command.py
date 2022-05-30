@@ -127,7 +127,8 @@ class UpdateUserConnectionInfoCommand(BaseCommand):
         super().__init__()
     
     def execute(self):
-        return ConnectionManager().UpdateUserConnectInfo()
+        login = ConnectionManager().GetLogin()
+        return ConnectionManager().UpdateUserConnectInfo(login)
 
 class DonateCommand(BaseCommand):
     def __init__(self):
@@ -142,3 +143,10 @@ class CheckHistoryCommand(BaseCommand):
     
     def execute(self):
         return ConnectionManager().CheckHistory()
+
+class GetAllActiveAccsCommand(BaseCommand):
+    def __init__(self):
+        super().__init__()
+    
+    def execute(self):
+        return ConnectionManager().GetAllActiveAccs()

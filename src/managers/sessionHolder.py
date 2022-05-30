@@ -37,7 +37,7 @@ class SessionHolder():
         self.sessionInfo["userWebID"] = webID
     
     def getUserAccID(self):
-        return self.sessionInfo["userWebID"]
+        return self.sessionInfo["userAccountID"]
     
     def setUserAccID(self, accID):
         self.sessionInfo["userAccountID"] = accID

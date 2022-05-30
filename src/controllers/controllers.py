@@ -1,10 +1,12 @@
+from datetime import datetime
 from re import L
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QColor, QBrush
 from errors import *
 from facade.command import *
 from managers.AnalyzeManager import AnalyzerManager
+from PyQt5.QtWidgets import QMessageBox
 
 class BaseController():
     def __init__(self, UI) -> None:
@@ -44,8 +46,6 @@ class VerifyUIController(BaseController):
                 self.UI.playersTable.setItem(i, 2, QtWidgets.QTableWidgetItem(str(el[3])))
                 self.UI.playersTable.setItem(i, 3, QtWidgets.QTableWidgetItem(str(el[4])))
                 self.UI.playersTable.setItem(i, 4, QtWidgets.QTableWidgetItem(str(el[5])))
-        else:
-            print(errorCode)
     
     def searchAcc(self):
         surname = self.UI.surnameEdit.text()
@@ -57,22 +57,18 @@ class VerifyUIController(BaseController):
     def activateAcc(self):
         curRow = self.UI.playersTable.selectedItems()[0].row()
         id = self.UI.playersTable.item(curRow, 0).text()
-        errorCode = self.UI.Facade.execute(ChangeStatusAccCommand(), id, "Active")
+        errorCode, _ = self.UI.Facade.execute(ChangeStatusAccCommand(), id, "Active")
 
         if errorCode == OK:
             self.UI.playersTable.removeRow(curRow)
-        else:
-            print(errorCode)
     
     def blockAcc(self):
         curRow = self.UI.playersTable.selectedItems()[0].row()
         id = self.UI.playersTable.item(curRow, 0).text()
-        errorCode = self.UI.Facade.execute(ChangeStatusAccCommand(), id, "Blocked")
+        errorCode, _ = self.UI.Facade.execute(ChangeStatusAccCommand(), id, "Blocked")
 
         if errorCode == OK:
             self.UI.playersTable.removeRow(curRow)
-        else:
-            print(errorCode, id)
 
 class MainMenuUIController(BaseController):
     def __init__(self, UI) -> None:
@@ -92,7 +88,7 @@ class MainMenuUIController(BaseController):
             status = 'Заблокирован'
         self.UI.welcomeLabel.setText(self.UI.welcomeLabel.text() + login + "!")
         self.UI.statusLabel.setText(self.UI.statusLabel.text() + status)
-        self.UI.balanceLabel.setText(self.UI.balanceLabel.text() + str(balance) + " у.е")
+        self.UI.balanceLabel.setText(self.UI.balanceLabel.text() + str(round(balance, 2)) + " у.е")
 
         self.UI.exitButton.clicked.connect(lambda: self.exitToMain())
         self.UI.betButton.clicked.connect(lambda: self.UI.BetUI())
@@ -119,7 +115,7 @@ class FirstMenuUIController(BaseController):
         if (errorCode == OK):
             if role == "Player":
                 self.UI.MainMenuUI()
-            elif role == "Manager":
+            elif role == "Admin":
                 self.UI.ManagerMainUI()
             elif role == "Analyzer":
                 self.UI.statMainUI()
@@ -131,6 +127,7 @@ class RegistrateUIController(BaseController):
     
     def execute(self):
         self.UI.goButton.clicked.connect(lambda: self.tryToRegistrate())
+        self.UI.exitButton.clicked.connect(lambda: self.UI.FirstMenuUI())
 
     def tryToRegistrate(self):
         surname = self.UI.surnameEdit.text()
@@ -142,8 +139,34 @@ class RegistrateUIController(BaseController):
         login = self.UI.loginEdit.text()
         password = self.UI.passwordEdit.text()
         errorCode = self.UI.Facade.execute(RegistrateCommand(), surname, name, dateBirth, email, passport, telephone, login, password)
+        msgBox = QMessageBox()
+        msgBox.setIcon(QMessageBox.Information)
         if (errorCode == OK):
+            msgBox.setWindowTitle("Успех!")
+            msgBox.setText("Регистрация прошла успешно!")
+            msgBox.exec()
             self.UI.FirstMenuUI()
+        else:
+            msgBox.setWindowTitle("Ошибка!")
+
+            if (errorCode == BAD_SURNAME):
+                msgBox.setText("Фамилия не должна быть пустой")
+            elif (errorCode == BAD_NAME):
+                msgBox.setText("Имя не должно быть пустым")
+            elif (errorCode == BAD_EMAIL):
+                msgBox.setText("Электронная почта введена неправильно!")
+            elif (errorCode == BAD_PASSPORT):
+                msgBox.setText("Вы неправильно ввели свой паспорт! \n Серия и номер должны быть написаны слитно")
+            elif (errorCode == BAD_TELEPHONE):
+                msgBox.setText("Вы неправильно ввели свой номер телефона!")
+            elif (errorCode == BAD_LOGIN):
+                msgBox.setText("Длина логина должна быть не меньше 6 символов")
+            elif (errorCode == BAD_PASSWORD):
+                msgBox.setText("Длина пароля должна быть не меньше 6 символов")
+            elif (errorCode == LOGIN_IS_OCCUPED):
+                msgBox.setText("К сожалению, логин уже занят. Выберите другой.")
+            
+            msgBox.exec()
 
 class MainManagerUIController(BaseController):
     def __init__(self, UI) -> None:
@@ -152,6 +175,7 @@ class MainManagerUIController(BaseController):
     def execute(self):
         self.UI.verificateButton.clicked.connect(lambda: self.UI.verifyMenuUI())
         self.UI.exitButton.clicked.connect(lambda: self.UI.FirstMenuUI())
+        self.UI.bunButton.clicked.connect(lambda: self.UI.bunPlayersUI())
 
 class StatMainUIController(BaseController):
     def __init__(self, UI) -> None:
@@ -168,6 +192,8 @@ class AddMatchUIController(BaseController):
         self.curTeam = 0
     
     def execute(self):
+        self.UI.dateEdit.setDateTime(QtCore.QDateTime.currentDateTime())
+        self.UI.timeEdit.setDateTime(QtCore.QDateTime.currentDateTime())
         self.UI.teamTable.setColumnWidth(0, 70)
         self.UI.teamTable.setColumnWidth(1, 450)
         self.UI.teamTable.setColumnWidth(2, 330)
@@ -176,6 +202,7 @@ class AddMatchUIController(BaseController):
         self.createTable('%')
         self.UI.teamTable.clicked.connect(lambda: self.addTeam())
         self.UI.searchButton.clicked.connect(lambda: self.searchAcc())
+        self.UI.exitButton.clicked.connect(lambda: self.UI.statMainUI())
     
     def createTable(self, teamName):
         errorCode, teams = self.UI.Facade.execute(ViewTeamsCommand(), teamName)
@@ -187,8 +214,6 @@ class AddMatchUIController(BaseController):
                 self.UI.teamTable.setItem(i, 0, QtWidgets.QTableWidgetItem(str(el[0])))
                 self.UI.teamTable.setItem(i, 1, QtWidgets.QTableWidgetItem(str(el[1])))
                 self.UI.teamTable.setItem(i, 2, QtWidgets.QTableWidgetItem(str(el[2])))
-        else:
-            print(errorCode)
     
     def addTeam(self):
         curRow = self.UI.teamTable.selectedItems()[0].row()
@@ -222,7 +247,16 @@ class AddMatchUIController(BaseController):
         if errorCode == OK:
             self.UI.statMainUI()
         else:
-            print(errorCode)
+            msgBox = QMessageBox()
+            msgBox.setIcon(QMessageBox.Critical)
+            msgBox.setWindowTitle("Возникли проблемы")
+            if errorCode == BAD_TEAMS:
+                msgBox.setText("Выбранные команды не должны совпадать!")
+            elif errorCode == BAD_TIME:
+                msgBox.setText("Матч нельзя назначить на раньше, чем сейчас!")
+            elif errorCode == BAD_COEFS:
+                msgBox.setText("Сумма вероятностей не равна 100%!")
+            msgBox.exec()
 
 class LineAnaliticUIController(BaseController):
     
@@ -258,9 +292,9 @@ class LineAnaliticUIController(BaseController):
 
         p1, x, p2 = self.UI.Facade.execute(FindProbs(), p1, x, p2)
 
-        self.UI.p1Spin.setValue(p1)
-        self.UI.xSpin.setValue(x)
-        self.UI.p2Spin.setValue(p2)
+        self.UI.p1Spin.setValue(round(p1, 2))
+        self.UI.xSpin.setValue(round(x, 2))
+        self.UI.p2Spin.setValue(round(p2, 2))
 
     def createTable(self, teamName):
         errorCode, games = self.UI.Facade.execute(ViewGamesAnalyze(), teamName)
@@ -280,8 +314,6 @@ class LineAnaliticUIController(BaseController):
                 self.UI.gameTable.setItem(i, 6, QtWidgets.QTableWidgetItem(str(round(el[7], 2))))
                 self.UI.gameTable.setItem(i, 7, QtWidgets.QTableWidgetItem(str(round(el[8], 2))))
                 self.UI.gameTable.setItem(i, 8, QtWidgets.QTableWidgetItem(str(round(el[9], 2))))
-        else:
-            print(errorCode)
 
     def changeStatus(self):
         curRow = self.UI.gameTable.selectedItems()[0].row()
@@ -296,8 +328,6 @@ class LineAnaliticUIController(BaseController):
                 self.UI.gameTable.item(curRow, 4).setText("Live")
             elif (curStatus == 'Live'):
                 self.UI.gameTable.removeRow(curRow)
-        else:
-            print(errorCode)
 
     def addGoal(self, team):
         curRow = self.UI.gameTable.selectedItems()[0].row()
@@ -317,7 +347,11 @@ class LineAnaliticUIController(BaseController):
 
             self.UI.gameTable.item(curRow, 5).setText(curResult)
         else:
-            print("Матч ещё не начался :(")
+            msgBox = QMessageBox()
+            msgBox.setIcon(QMessageBox.Critical)
+            msgBox.setWindowTitle("Возникли проблемы")
+            msgBox.setText("Матч ещё не начался!")
+            msgBox.exec()
 
     def searchByTeam(self):
         teamName = self.UI.searchEdit.text()
@@ -338,7 +372,11 @@ class LineAnaliticUIController(BaseController):
         if errorCode == OK:
             self.UI.checkLineUI()
         else:
-            print(errorCode)
+            msgBox = QMessageBox()
+            msgBox.setIcon(QMessageBox.Critical)
+            msgBox.setWindowTitle("Возникли проблемы")
+            msgBox.setText("Сумма вероятностей не равна 100%!")
+            msgBox.exec()
 
 class betUIController(BaseController):
 
@@ -370,7 +408,7 @@ class betUIController(BaseController):
 
         balance, maxbet = self.UI.Facade.execute(GetUserBetInfoCommand())   
 
-        self.UI.balanceLabel.setText("Ваш баланс: " + str(balance))
+        self.UI.balanceLabel.setText("Ваш баланс: " + str(round(balance, 2)))
         self.UI.maxBetLabel.setText("Максимальная ставка: " + str(maxbet))
         self.UI.sumBox.setMaximum(maxbet)
 
@@ -437,15 +475,27 @@ class betUIController(BaseController):
                 betPredict = 2
             else:
                 return
+            
+            msgBox = QMessageBox()
 
             errorCode, _ = self.UI.Facade.execute(MakeBetCommand(), id, betPredict, size, k)
             if errorCode == OK:
-                errorCode, _ = self.UI.Facade.execute(UpdateUserConnectionInfoCommand())
-                if errorCode == OK:
-                    print("Я тут!")
-                    self.UI.BetUI()
-        except:
-            pass
+                errorCode = self.UI.Facade.execute(UpdateUserConnectionInfoCommand())
+                
+            if errorCode == OK:
+                msgBox.setIcon(QMessageBox.Information)
+                msgBox.setWindowTitle("Успех!")
+                msgBox.setText("Ставка прошла успешно!")
+                msgBox.exec()
+                self.UI.BetUI()
+            else:
+                msgBox.setIcon(QMessageBox.Critical)
+                msgBox.setWindowTitle("Что-то пошло не так")
+                msgBox.setText("Возникла ошибка при совершении ставки. \nВозможно, вам не хватает средств")
+                msgBox.exec()
+        
+        except Exception as e:
+            print(e)
 
 class DonateController(BaseController):
     def __init__(self, UI) -> None:
@@ -453,14 +503,25 @@ class DonateController(BaseController):
     
     def execute(self):
         self.UI.donateButton.clicked.connect(lambda: self.donate())
+        self.UI.exitButton.clicked.connect(lambda: self.UI.MainMenuUI())
     
     def donate(self):
         value = float(self.UI.sumBox.value())
         errorCode, _ = self.UI.Facade.execute(DonateCommand(), value)
+
+        msgBox = QMessageBox()
+
         if errorCode == OK:
+            msgBox.setIcon(QMessageBox.Information)
+            msgBox.setWindowTitle("Успех!")
+            msgBox.setText("Баланс успешно пополнен!")
+            msgBox.exec()
             self.UI.MainMenuUI()
         else:
-            print(errorCode)
+            msgBox.setIcon(QMessageBox.Critical)
+            msgBox.setWindowTitle("Что-то пошло не так")
+            msgBox.setText("Возникла ошибка при совершении ставки. \nВозможно, вам не хватает средств")
+            msgBox.exec()
 
 class CheckHistoryController(BaseController):
     def __init__(self, UI) -> None:
@@ -471,9 +532,9 @@ class CheckHistoryController(BaseController):
         self.UI.backButton.clicked.connect(lambda: self.UI.MainMenuUI())
         
         self.UI.gameTable.setColumnWidth(0, 10)
-        self.UI.gameTable.setColumnWidth(1, 320)
-        self.UI.gameTable.setColumnWidth(2, 350)
-        self.UI.gameTable.setColumnWidth(3, 350)
+        self.UI.gameTable.setColumnWidth(1, 220)
+        self.UI.gameTable.setColumnWidth(2, 400)
+        self.UI.gameTable.setColumnWidth(3, 400)
         self.UI.gameTable.setColumnWidth(4, 95)
         self.UI.gameTable.setColumnWidth(5, 160)
         self.UI.gameTable.setColumnWidth(6, 105)
@@ -489,7 +550,9 @@ class CheckHistoryController(BaseController):
             self.UI.gameTable.setRowCount(N)
             for i, el in enumerate(games):
                 self.UI.gameTable.setItem(i, 0, QtWidgets.QTableWidgetItem(str(el[0])))
-                self.UI.gameTable.setItem(i, 1, QtWidgets.QTableWidgetItem(str(el[1])))
+                date, time = str(el[1]).split(' ')
+                betDateTime = date + " " * 5 + time[:5]
+                self.UI.gameTable.setItem(i, 1, QtWidgets.QTableWidgetItem(betDateTime))
                 self.UI.gameTable.setItem(i, 2, QtWidgets.QTableWidgetItem(str(el[2])))               
                 self.UI.gameTable.setItem(i, 3, QtWidgets.QTableWidgetItem(str(el[3])))
                 choosedResult = el[4]
@@ -507,7 +570,6 @@ class CheckHistoryController(BaseController):
                     color = QColor(0, 0, 0)
                     result = "Принята"
                 elif result == 1:
-                    # self.UI.gameTable.item(i, 7).setForeground(QBrush(QColor(255, 0, 0)))
                     color = QColor(0, 255, 0)
                     result = "Выиграна"
                 elif result == -1:
@@ -515,6 +577,39 @@ class CheckHistoryController(BaseController):
                     result = "Проиграна"
                 self.UI.gameTable.setItem(i, 7, QtWidgets.QTableWidgetItem(result))
                 self.UI.gameTable.item(i, 7).setForeground(QBrush(color))
-                self.UI.gameTable.setItem(i, 8, QtWidgets.QTableWidgetItem(el[8]))
-        else:
-            print(errorCode)
+                self.UI.gameTable.setItem(i, 8, QtWidgets.QTableWidgetItem(str(round(el[8], 2))))
+
+class BunController(BaseController):
+    def __init__(self, UI) -> None:
+        super().__init__(UI)
+    
+    def execute(self):
+        self.UI.blockButton.clicked.connect(lambda: self.bun())
+        self.UI.exitButton.clicked.connect(lambda: self.UI.ManagerMainUI())
+        
+        self.UI.playerTable.setColumnWidth(0, 10)
+        self.UI.playerTable.setColumnWidth(1, 200)
+        self.UI.playerTable.setColumnWidth(2, 483)
+        self.UI.playerTable.setColumnWidth(3, 150)
+        self.UI.playerTable.setColumnWidth(4, 150)
+
+        self.createTable()
+    
+    def createTable(self):
+        errorCode, players = self.UI.Facade.execute(GetAllActiveAccsCommand())
+        if errorCode == OK:
+            N = len(players)
+            self.UI.playerTable.setRowCount(N)
+            for i, el in enumerate(players):
+                self.UI.playerTable.setItem(i, 0, QtWidgets.QTableWidgetItem(str(el[0])))
+                self.UI.playerTable.setItem(i, 1, QtWidgets.QTableWidgetItem(str(el[1])))
+                self.UI.playerTable.setItem(i, 2, QtWidgets.QTableWidgetItem(str(el[2]) + " " + str(el[3])))               
+                self.UI.playerTable.setItem(i, 3, QtWidgets.QTableWidgetItem(str(el[4])))
+                self.UI.playerTable.setItem(i, 4, QtWidgets.QTableWidgetItem(str(el[5])))
+    
+    def bun(self):
+        curRow = self.UI.playerTable.selectedItems()[0].row()
+        id = self.UI.playerTable.item(curRow, 0).text()
+        self.UI.Facade.execute(ChangeStatusAccCommand(), id, "Blocked")
+
+        self.execute()

@@ -15,7 +15,8 @@ class DataManager(BaseManager):
         result = []
         try:
             self.cur.execute(executeString)
-        except:
+        except Exception as e:
+            print(e)
             errorCode = DATABASE_ERROR
             self.connection.rollback()
         else:
@@ -66,9 +67,9 @@ class DataManager(BaseManager):
         return errorCode
             
     def makeRegistrate(self, surname, name, dateOfBirth, email, passport, telephone, login, password):
-        executeString1 = f"CALL BK.registrate('{login}', '{password}', '{name}','{surname}', '{dateOfBirth}', '{telephone}', '{passport}', '{email}');"
+        executeString = f"CALL BK.registrate('{login}', '{password}', '{name}','{surname}', '{dateOfBirth}', '{telephone}', '{passport}', '{email}');"
 
-        errorCode, _ = self.execute(executeString1)
+        errorCode, _ = self.execute(executeString)
 
         return errorCode
 
@@ -142,10 +143,14 @@ class DataManager(BaseManager):
     def Donate(self, id, value):
         executeString = f"CALL BK.Donate({id}, {value});"
 
-        print(executeString)
         return self.execute(executeString)
     
     def CheckHistory(self, id):
         executeString = f"SELECT * FROM BK.GetBetHistory({id})"
+
+        return self.execute(executeString)
+    
+    def GetAllActiveAccs(self):
+        executeString = f"SELECT * FROM BK.GetAllActiveAccs()"
 
         return self.execute(executeString)

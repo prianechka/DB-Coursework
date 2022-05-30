@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>600</height>
+    <height>624</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -36,7 +36,7 @@
     <property name="geometry">
      <rect>
       <x>90</x>
-      <y>150</y>
+      <y>130</y>
       <width>121</width>
       <height>21</height>
      </rect>
@@ -54,7 +54,7 @@
     <property name="geometry">
      <rect>
       <x>370</x>
-      <y>150</y>
+      <y>130</y>
       <width>71</width>
       <height>21</height>
      </rect>
@@ -72,9 +72,9 @@
     <property name="geometry">
      <rect>
       <x>550</x>
-      <y>140</y>
-      <width>181</width>
-      <height>31</height>
+      <y>120</y>
+      <width>201</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="font">
@@ -89,10 +89,10 @@
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>230</y>
+      <x>30</x>
+      <y>220</y>
       <width>231</width>
-      <height>51</height>
+      <height>61</height>
      </rect>
     </property>
     <property name="font">
@@ -108,9 +108,9 @@
     <property name="geometry">
      <rect>
       <x>300</x>
-      <y>240</y>
-      <width>191</width>
-      <height>31</height>
+      <y>230</y>
+      <width>201</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="font">
@@ -125,7 +125,7 @@
    <widget class="QLabel" name="label_7">
     <property name="geometry">
      <rect>
-      <x>540</x>
+      <x>550</x>
       <y>230</y>
       <width>211</width>
       <height>41</height>
@@ -144,7 +144,7 @@
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>350</y>
+      <y>380</y>
       <width>91</width>
       <height>31</height>
      </rect>
@@ -162,7 +162,7 @@
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>420</y>
+      <y>450</y>
       <width>101</width>
       <height>31</height>
      </rect>
@@ -180,7 +180,7 @@
     <property name="geometry">
      <rect>
       <x>240</x>
-      <y>490</y>
+      <y>520</y>
       <width>251</width>
       <height>41</height>
      </rect>
@@ -197,81 +197,139 @@
    <widget class="QLineEdit" name="surnameEdit">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>180</y>
-      <width>171</width>
-      <height>31</height>
+      <x>30</x>
+      <y>170</y>
+      <width>221</width>
+      <height>41</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
     </property>
    </widget>
    <widget class="QLineEdit" name="nameEdit">
     <property name="geometry">
      <rect>
       <x>310</x>
-      <y>180</y>
-      <width>171</width>
-      <height>31</height>
+      <y>170</y>
+      <width>191</width>
+      <height>41</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
     </property>
    </widget>
    <widget class="QLineEdit" name="emailEdit">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>280</y>
-      <width>171</width>
-      <height>31</height>
+      <x>30</x>
+      <y>270</y>
+      <width>221</width>
+      <height>41</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
     </property>
    </widget>
    <widget class="QLineEdit" name="passportEdit">
     <property name="geometry">
      <rect>
-      <x>310</x>
-      <y>280</y>
-      <width>171</width>
-      <height>31</height>
+      <x>300</x>
+      <y>270</y>
+      <width>201</width>
+      <height>41</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
     </property>
    </widget>
    <widget class="QLineEdit" name="telephoneEdit">
     <property name="geometry">
      <rect>
       <x>550</x>
-      <y>280</y>
-      <width>171</width>
-      <height>31</height>
+      <y>270</y>
+      <width>191</width>
+      <height>41</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
     </property>
    </widget>
    <widget class="QLineEdit" name="loginEdit">
     <property name="geometry">
      <rect>
-      <x>280</x>
-      <y>350</y>
-      <width>171</width>
-      <height>31</height>
+      <x>270</x>
+      <y>370</y>
+      <width>231</width>
+      <height>41</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
     </property>
    </widget>
    <widget class="QLineEdit" name="passwordEdit">
     <property name="geometry">
      <rect>
-      <x>280</x>
-      <y>420</y>
-      <width>171</width>
-      <height>31</height>
+      <x>270</x>
+      <y>440</y>
+      <width>231</width>
+      <height>41</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
     </property>
    </widget>
    <widget class="QDateEdit" name="dateEdit">
     <property name="geometry">
      <rect>
       <x>550</x>
-      <y>180</y>
-      <width>181</width>
-      <height>31</height>
+      <y>170</y>
+      <width>191</width>
+      <height>41</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="exitButton">
+    <property name="geometry">
+     <rect>
+      <x>570</x>
+      <y>520</y>
+      <width>181</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>18</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Выход</string>
     </property>
    </widget>
   </widget>

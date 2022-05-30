@@ -1,6 +1,3 @@
-from errno import errorcode
-import re
-from termios import OLCUC
 from BaseManager import BaseManager
 import sys
 import numpy as np
@@ -134,7 +131,7 @@ class ValidateRegistrateManager(BaseValidateManager):
     def __checkLogPas(self, login, password):
         if (len(login) < 6):
             return BAD_LOGIN
-        elif (len(password) < 11):
+        elif (len(password) < 6):
             return BAD_PASSWORD
         else:
             return OK

@@ -3,9 +3,7 @@ from controllers.controllers import *
 sys.path.append("./facade")
 sys.path.append("./controllers")
 sys.path.append("./managers")
-from PyQt5 import QtWidgets, uic, QtGui
-from PyQt5.QtCore import Qt
-from tabulate import tabulate
+from PyQt5 import QtWidgets, uic
 from facade.Facade import Facade
 from facade.command import *
 from errors import *
@@ -72,6 +70,11 @@ class MyWindow(QtWidgets.QMainWindow):
     def checkHistoryUI(self):
         uic.loadUi("./ui/checkHistory.ui", self)
         self.controller = CheckHistoryController(self)
+        self.controller.execute()
+    
+    def bunPlayersUI(self):
+        uic.loadUi("./ui/verifyPlayers.ui", self)
+        self.controller = BunController(self)
         self.controller.execute()
 
 app = QtWidgets.QApplication(sys.argv)

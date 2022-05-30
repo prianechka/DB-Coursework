@@ -55,14 +55,17 @@
      <rect>
       <x>260</x>
       <y>260</y>
-      <width>231</width>
+      <width>261</width>
       <height>41</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>25</pointsize>
+      <pointsize>20</pointsize>
      </font>
+    </property>
+    <property name="dragEnabled">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLineEdit" name="loginEdit">
@@ -70,13 +73,13 @@
      <rect>
       <x>260</x>
       <y>200</y>
-      <width>231</width>
+      <width>261</width>
       <height>41</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>25</pointsize>
+      <pointsize>20</pointsize>
      </font>
     </property>
    </widget>

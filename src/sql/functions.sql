@@ -148,8 +148,37 @@ $$
     END;
 $$ language plpgsql;
 
-        SELECT B.betid, B.betdate, tmp.teamname, t2.teamname, B.choosedresult, B.betsize, B.betstatus, B.payoutamount
-        FROM BK.account as A JOIN Bk.Bet as B on (A.accountid = b.accountid)
-            JOIN (BK.Game as G JOIN BK.Team T on (t.teamid = G.team1id)) as tmp on (tmp.gameid = B.gameid)
-                JOIN BK.Team as T2 on (tmp.team2id = T2.teamid)
-        WHERE A.accountid = 1;
+CREATE OR REPLACE FUNCTION BK.GetROI(id int)
+RETURNS FLOAT
+AS
+    $$
+    DECLARE Result int;
+    BEGIN
+        SELECT sum(payoutamount) - sum(betsize) into Result
+        FROM BK.bet as B
+        WHERE accountid = id;
+
+        RETURN Result;
+    end;
+    $$ language plpgsql;
+
+
+CREATE OR REPLACE FUNCTION BK.GetAllActiveAccs()
+RETURNS TABLE (
+                accId int,
+                accLogin TEXT,
+                accName TEXT,
+                accSurname TEXT,
+                accBalance FLOAT,
+                accROI FLOAT
+              )
+AS $$
+    BEGIN
+        RETURN QUERY
+        SELECT A.accountid, W.webuserlogin, A.username, A.usersurname, A.balance, sum(B.payoutamount) - sum(B.betsize)
+        FROM BK.account as A JOIN BK.webusers as W on (A.webuserid = W.webuserid)
+        FULL OUTER JOIN BK.bet as B on (A.accountid = b.accountid)
+        WHERE A.userstatus = 'Active'
+        GROUP BY A.accountid, W,webuserlogin;
+    end;
+$$ language plpgsql;

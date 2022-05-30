@@ -12,16 +12,16 @@ class AnalyzerManager(BaseManager):
         p2 /= 100
         p3 /= 100
 
-        p1 = 1 / (p1 + self.marge / 3)
-        p2 = 1 / (p2 + self.marge / 3)
-        p3 = 1 / (p3 + self.marge / 3)
+        k1 = 1 / (p1 + self.marge / 3)
+        k2 = 1 / (p2 + self.marge / 3)
+        k3 = 1 / (p3 + self.marge / 3)
 
-        return round(p1, 2), round(p2, 2), round(p3, 2)
+        return round(k1, 2), round(k2, 2), round(k3, 2)
     
-    def findProbs(self, p1, p2, p3):
-        p1 = 1 / p1 - self.marge / 3
-        p2 = 1 / p2 - self.marge / 3
-        p3 = 1 / p3 - self.marge / 3
+    def findProbs(self, k1, k2, k3):
+        p1 = 1 / k1 - self.marge / 3
+        p2 = 1 / k2 - self.marge / 3
+        p3 = 1 / k3 - self.marge / 3
 
         p1 *= 100
         p2 *= 100

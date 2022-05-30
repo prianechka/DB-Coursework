@@ -42,14 +42,12 @@ class ConnectionManager(BaseManager):
     def UpdateUserConnectInfo(self, login):
         errorCode, webUserID, accountID, userStatus, balance, maxBet = DataManager().getUserInfo(login)
         if errorCode == OK:
-            print(balance)
             self.holder.setUserWebID(webUserID)
             self.holder.setUserAccID(accountID)
             self.holder.setUserStatus(userStatus)
             self.holder.setUserBalance(balance)
             self.holder.setUserMaxBet(maxBet)
-        else:
-            print(errorCode)
+        return errorCode
     
     def GetUserBetInfo(self):
         return self.holder.getUserBalance(), self.holder.getUserMaxBet()
@@ -73,7 +71,7 @@ class ConnectionManager(BaseManager):
             p1, p2, p3 = AnalyzerManager().createCoefs(p1, p2, p3)
             return DataManager().addGame(id1Team, id2Team, p1, p2, p3, dateMatch, timeMatch)
         else:
-            return ADD_MATCH_ERROR, []
+            return errorCode, []
     
     def viewGamesAnalyze(self, teamName):
         return DataManager().viewGamesAnalyze(teamName)
@@ -120,4 +118,7 @@ class ConnectionManager(BaseManager):
         id = self.holder.getUserAccID()
 
         return DataManager().CheckHistory(id)
+    
+    def GetAllActiveAccs(self):
+        return DataManager().GetAllActiveAccs()
 

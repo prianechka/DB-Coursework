@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>785</width>
-    <height>548</height>
+    <width>1155</width>
+    <height>551</height>
    </rect>
   </property>
   <property name="font">
@@ -22,48 +22,70 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>70</x>
+      <x>30</x>
       <y>20</y>
-      <width>681</width>
-      <height>51</height>
+      <width>211</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="text">
-     <string>Вы в меню менеджера букмекерской конторы Prianybet.</string>
+     <string>Список игроков:</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="verificateButton">
+   <widget class="QTableWidget" name="playerTable">
     <property name="geometry">
      <rect>
-      <x>210</x>
-      <y>140</y>
-      <width>311</width>
-      <height>51</height>
+      <x>30</x>
+      <y>60</y>
+      <width>1091</width>
+      <height>321</height>
      </rect>
     </property>
-    <property name="text">
-     <string>Верификация игроков</string>
-    </property>
+    <column>
+     <property name="text">
+      <string>ID</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Логин</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>ФИО</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Баланс</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Доходность</string>
+     </property>
+    </column>
    </widget>
-   <widget class="QPushButton" name="bunButton">
+   <widget class="QPushButton" name="blockButton">
     <property name="geometry">
      <rect>
-      <x>210</x>
-      <y>230</y>
-      <width>311</width>
+      <x>30</x>
+      <y>430</y>
+      <width>211</width>
       <height>51</height>
      </rect>
     </property>
     <property name="text">
-     <string>Блокировка игроков</string>
+     <string>Заблокировать</string>
     </property>
    </widget>
    <widget class="QPushButton" name="exitButton">
     <property name="geometry">
      <rect>
-      <x>210</x>
-      <y>390</y>
-      <width>311</width>
+      <x>910</x>
+      <y>420</y>
+      <width>211</width>
       <height>51</height>
      </rect>
     </property>
@@ -77,7 +99,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>785</width>
+     <width>1155</width>
      <height>33</height>
     </rect>
    </property>
