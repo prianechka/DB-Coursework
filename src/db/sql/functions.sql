@@ -8,7 +8,7 @@ AS $$
     BEGIN
         RETURN query
         SELECT T.teamid, T.teamname, T.teamcity
-        FROM BK.Team as T
+        FROM BK.Teams as T
         WHERE T.teamname like myTeamName;
     END
 $$ language plpgsql;
@@ -42,8 +42,8 @@ RETURNS TABLE (
 AS $$
     BEGIN
         RETURN QUERY
-        SELECT W.webuserid, A.accountid, A.userStatus, A.balance, A.maxbet
-        FROM BK.Account as A JOIN BK.WebUsers as W on (A.webuserid = W.webuserid) WHERE W.webUserLogin = webUserLog;
+        SELECT W.userid, A.accountid, A.userStatus, A.balance, A.maxbet
+        FROM BK.Account as A JOIN BK.Users as W on (A.userid = W.userid) WHERE W.UserLogin = webUserLog;
     END
 $$ language plpgsql;
 
@@ -56,9 +56,9 @@ RETURNS TABLE (
 AS $$
     BEGIN
         RETURN QUERY
-        SELECT W.WebUserLogin, W.WebUserPassword, W.UserRole
-        FROM BK.WebUsers as W
-        WHERE W.WebUserLogin = login AND W.WebUserPassword = password;
+        SELECT W.UserLogin, W.UserPassword, W.UserRole
+        FROM BK.Users as W
+        WHERE W.UserLogin = login AND W.UserPassword = password;
     END
 $$ language plpgsql;
 
@@ -69,9 +69,9 @@ RETURNS TABLE (
 AS $$
     BEGIN
         RETURN QUERY
-        SELECT W.WebUserLogin
-        FROM BK.WebUsers as W
-        WHERE W.WebUserLogin = login;
+        SELECT W.UserLogin
+        FROM BK.Users as W
+        WHERE W.UserLogin = login;
     END
 $$ language plpgsql;
 
@@ -92,8 +92,10 @@ AS $$
     BEGIN
         RETURN QUERY
         SELECT gameid, gamedate, gametime, tmp.teamname, T2.teamname, gamestatus, gameresult, w1coef, drawcoef, w2coef
-            FROM (BK.Game as G JOIN BK.Team T on (t.teamid = G.team1id)) as tmp JOIN BK.Team as T2 on (tmp.team2id = T2.teamid)
-        WHERE (tmp.teamname like name OR T2.teamname like name) AND (gamestatus = 'Live' OR gamestatus = 'Plain')
+            FROM (BK.Games as G JOIN BK.Teams T on (t.teamid = G.team1id)) as tmp
+                JOIN BK.Teams as T2 on (tmp.team2id = T2.teamid)
+        WHERE (tmp.teamname like name OR T2.teamname like name)
+          AND (gamestatus = 'Live' OR gamestatus = 'Plain')
         ORDER BY gamedate, gametime;
     END;
 $$ language plpgsql;
@@ -115,8 +117,8 @@ AS $$
         RETURN QUERY
         SELECT B.betid, B.betdate, tmp.teamname, t2.teamname, B.choosedresult, B.koef, B.betsize, B.betstatus, B.payoutamount
         FROM BK.account as A JOIN Bk.Bet as B on (A.accountid = b.accountid)
-            JOIN (BK.Game as G JOIN BK.Team T on (t.teamid = G.team1id)) as tmp on (tmp.gameid = B.gameid)
-                JOIN BK.Team as T2 on (tmp.team2id = T2.teamid)
+            JOIN (BK.Games as G JOIN BK.Teams T on (t.teamid = G.team1id)) as tmp on (tmp.gameid = B.gameid)
+                JOIN BK.Teams as T2 on (tmp.team2id = T2.teamid)
         WHERE A.accountid = id
         ORDER BY B.betdate;
     end;
@@ -175,10 +177,10 @@ RETURNS TABLE (
 AS $$
     BEGIN
         RETURN QUERY
-        SELECT A.accountid, W.webuserlogin, A.username, A.usersurname, A.balance, sum(B.payoutamount) - sum(B.betsize)
-        FROM BK.account as A JOIN BK.webusers as W on (A.webuserid = W.webuserid)
+        SELECT A.accountid, W.userlogin, A.username, A.usersurname, A.balance, sum(B.payoutamount) - sum(B.betsize)
+        FROM BK.account as A JOIN BK.users as W on (A.userid = W.userid)
         FULL OUTER JOIN BK.bet as B on (A.accountid = b.accountid)
         WHERE A.userstatus = 'Active'
-        GROUP BY A.accountid, W,webuserlogin;
+        GROUP BY A.accountid, W.userlogin;
     end;
 $$ language plpgsql;

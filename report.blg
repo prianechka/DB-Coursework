@@ -1,0 +1,53 @@
+This is BibTeX, Version 0.99d (TeX Live 2019/Debian)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: report.aux
+A level-1 auxiliary file: 01-introduction.aux
+A level-1 auxiliary file: 1-analyze.aux
+The style file: utf8gost705u.bst
+Database file #1: source.bib
+I was expecting a `,' or a `}'---line 14 of file source.bib
+ :  title = "Федеральный закон 'О противодействии легализации (отмыванию) доходов, полученных преступным путем, и финансированию терроризма" 
+ :                                                                                                                                                                                                                                                        от 07.08.2001 N 115-ФЗ (последняя редакция)'",
+I'm skipping whatever remains of this entry
+You've used 7 entries,
+            2958 wiz_defined-function locations,
+            692 strings with 6878 characters,
+and the built_in function-call counts, 954 in all, are:
+= -- 103
+> -- 19
+< -- 2
++ -- 10
+- -- 3
+* -- 22
+:= -- 96
+add.period$ -- 15
+call.type$ -- 7
+change.case$ -- 0
+chr.to.int$ -- 0
+cite$ -- 7
+duplicate$ -- 54
+empty$ -- 121
+format.name$ -- 3
+if$ -- 241
+int.to.chr$ -- 0
+int.to.str$ -- 7
+missing$ -- 0
+newline$ -- 45
+num.names$ -- 3
+pop$ -- 49
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 25
+stack$ -- 0
+substring$ -- 0
+swap$ -- 23
+text.length$ -- 1
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 0
+while$ -- 1
+width$ -- 8
+write$ -- 88
+(There was 1 error message)

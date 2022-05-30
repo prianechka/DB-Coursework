@@ -2,8 +2,8 @@ CREATE OR REPLACE PROCEDURE BK.insertUsers(userEmail TEXT, login TEXT, password 
 AS
     $$
     BEGIN
-        INSERT INTO BK.WebUsers(email, webuserlogin, webuserpassword, createdat, userrole) VALUES
-        (userEmail, login, password, CURRENT_TIMESTAMP, 'Player');
+        INSERT INTO BK.Users(userlogin, userpassword, userrole) VALUES
+        (login, password, 'Player');
     END;
 
     $$ language plpgsql;
@@ -12,7 +12,7 @@ CREATE OR REPLACE PROCEDURE BK.insertAccount(id INT, name TEXT, surname TEXT, bi
 AS
     $$
     BEGIN
-        INSERT INTO Bk.Account(webuserid, username, usersurname, dateofbirth, phonenumber, passportnumber, email, creationdate, userstatus, balance, maxbet) VALUES
+        INSERT INTO Bk.Account(userid, username, usersurname, dateofbirth, phonenumber, passportnumber, email, creationdate, userstatus, balance, maxbet) VALUES
         (id, name, surname, birth, phone, passport, mail, CURRENT_TIMESTAMP, 'On Verify', 0, 1000);
     END;
 
@@ -25,7 +25,7 @@ AS
         id INT;
     BEGIN
         CALL BK.InsertUsers(mail, login, password);
-        SELECT into id W.WebUserID from BK.WebUsers as W WHERE W.webuserlogin = login;
+        SELECT into id W.UserID from BK.Users as W WHERE W.userlogin = login;
         CALL BK.InsertAccount(id, name, surname, birth, phone, passport, mail);
     END;
 $$ language plpgsql;
@@ -44,7 +44,7 @@ CREATE OR REPLACE PROCEDURE BK.addGame(id1 INT, id2 INT, w1 FLOAT, x FLOAT, w2 F
 AS
     $$
     BEGIN
-        INSERT INTO BK.game(gamestatus, team1id, team2id, w1coef, drawcoef, w2coef, gameresult, gamedate, gametime) VALUES
+        INSERT INTO BK.games(gamestatus, team1id, team2id, w1coef, drawcoef, w2coef, gameresult, gamedate, gametime) VALUES
         ('Plain', id1, id2, w1, x, w2, '0:0', matchDate, matchTime);
     END;
 $$ language plpgsql;
@@ -55,7 +55,7 @@ AS
     DECLARE
         stat TEXT;
     BEGIN
-        SELECT G.gamestatus into stat FROM BK.game as G WHERE G.gameid = id;
+        SELECT G.gamestatus into stat FROM BK.games as G WHERE G.gameid = id;
         if stat = 'Live'
             THEN stat = 'Finished';
         END if;
@@ -63,7 +63,7 @@ AS
             stat = 'Live';
         END if;
 
-        UPDATE BK.game
+        UPDATE BK.games
         SET gamestatus = stat
         WHERE gameid = id;
     END;
@@ -73,7 +73,7 @@ CREATE OR REPLACE PROCEDURE BK.changeGameResult(id INT, result TEXT)
 AS
     $$
     BEGIN
-        UPDATE BK.game
+        UPDATE BK.games
         SET gameresult = result
         WHERE gameid = id;
     END;
@@ -83,7 +83,7 @@ CREATE OR REPLACE PROCEDURE BK.changeGameCoef(id INT, w1 FLOAT, x FLOAT, w2 FLOA
 AS
     $$
     BEGIN
-        UPDATE BK.game
+        UPDATE BK.games
         SET w1coef = w1, w2coef = w2, drawcoef = x
         WHERE gameid = id;
     END;
@@ -131,7 +131,3 @@ AS
             close allAccs;
         END;
 $$ language plpgsql;
-
-            SELECT Acc.accountid
-            FROM BK.bet as B JOIN BK.Account as Acc on Acc.accountid = B.accountid
-            WHERE B.GameID = 21 and B.betstatus = 1;

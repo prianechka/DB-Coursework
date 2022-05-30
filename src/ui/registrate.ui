@@ -212,9 +212,9 @@
    <widget class="QLineEdit" name="nameEdit">
     <property name="geometry">
      <rect>
-      <x>310</x>
+      <x>300</x>
       <y>170</y>
-      <width>191</width>
+      <width>201</width>
       <height>41</height>
      </rect>
     </property>
@@ -312,6 +312,13 @@
      <font>
       <pointsize>16</pointsize>
      </font>
+    </property>
+    <property name="date">
+     <date>
+      <year>2002</year>
+      <month>1</month>
+      <day>1</day>
+     </date>
     </property>
    </widget>
    <widget class="QPushButton" name="exitButton">

@@ -39,17 +39,12 @@ AS
             SET betstatus = -1
             WHERE B.GameID = new.GameID AND B.ChoosedResult != Bk.getresult(new.GameResult);
 
-        -- Меняем количество средств на счету игроков
-
             CALL BK.UpdateBalance(new.gameid);
-
         end if;
         return new;
 
     END;
     $$ language plpgsql;
-
-
-DROP trigger if exists UpdateBetTrigger on BK.Game;
-CREATE TRIGGER UpdateBetTrigger AFTER UPDATE ON BK.Game
+DROP trigger if exists UpdateBetTrigger on BK.Games;
+CREATE TRIGGER UpdateBetTrigger AFTER UPDATE ON BK.Games
 FOR ROW EXECUTE PROCEDURE BK.UpdateBet();

@@ -1,0 +1,64 @@
+\begin{thebibliography}{1}
+\def\selectlanguageifdefined#1{
+\expandafter\ifx\csname date#1\endcsname\relax
+\else\language\csname l@#1\endcsname\fi}
+\ifx\undefined\url\def\url#1{{\small #1}}\else\fi
+\ifx\undefined\BibUrl\def\BibUrl#1{\url{#1}}\else\fi
+\ifx\undefined\BibAnnote\long\def\BibAnnote#1{(#1)}\else\fi
+\ifx\undefined\BibEmph\def\BibEmph#1{\emph{#1}}\else\fi
+
+\bibitem{bk}
+\selectlanguageifdefined{russian}
+Федеральный закон 'О государственном
+  регулировании деятельности по
+  организации и проведению азартных игр и о
+  внесении изменений в некоторые
+  законодательные акты Российской
+  Федерации'.
+\newblock Режим доступа
+  \url{http://www.consultant.ru/document/cons_doc_LAW_64924/} (дата
+  обращения: 14.05.2022).
+
+\bibitem{kfs}
+\selectlanguageifdefined{russian}
+Lorig~Matthew, Zhou~Zhou, Zou~Bin. Optimal Bookmaking~// European Journal of
+  Operational Research.
+\newblock 2021.  03.
+\newblock Т. 295.
+
+\bibitem{bk2}
+\selectlanguageifdefined{russian}
+Федеральный закон 'О противодействии
+  легализации (отмыванию) доходов,
+  полученных преступным путем, и
+  финансированию терроризма.
+
+\bibitem{subd}
+\selectlanguageifdefined{russian}
+Что такое СУБД - RU-CENTER [Электронный ресурс].
+\newblock Режим доступа:
+  \url{https://www.nic.ru/help/chto-takoe-subd_8580.html} (дата
+  обращения: 07.06.2021).
+
+\bibitem{postgresql}
+\selectlanguageifdefined{russian}
+PostgreSQL: Документация. [Электронный ресурс].
+\newblock Режим доступа:
+  \url{https://postgrespro.ru/docs/postgresql/} (дата обращения:
+  07.06.2021).
+
+\bibitem{oracle}
+\selectlanguageifdefined{russian}
+SQL Language | Oracle[Электронный ресурс].
+\newblock Режим доступа:
+  \url{https://www.oracle.com/database/technologies/appdev/sql.html} (дата
+  обращения: 07.06.2021).
+
+\bibitem{mysql}
+\selectlanguageifdefined{russian}
+MySQL Database Service is a fully managed database service to deploy
+  cloud-native applications. [Электронный ресурс].
+\newblock Режим доступа: \url{https://www.mysql.com/} (дата
+  обращения: 07.06.2021).
+
+\end{thebibliography}

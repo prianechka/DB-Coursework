@@ -2,20 +2,18 @@ DROP SCHEMA BK cascade;
 
 CREATE SCHEMA BK;
 
-CREATE TABLE BK.WebUsers
+CREATE TABLE BK.Users
 (
-    WebUserID SERIAL PRIMARY KEY,
-    Email TEXT,
-    WebUserLogin TEXT,
-    WebUserPassword TEXT,
-    CreatedAt TIMESTAMP,
+    UserID SERIAL PRIMARY KEY,
+    UserLogin TEXT UNIQUE,
+    UserPassword TEXT,
     UserRole TEXT
 );
 
 CREATE TABLE Bk.Account
 (
     AccountId    SERIAL PRIMARY KEY,
-    WebUserID INT,
+    UserID INT,
     UserName TEXT,
     UserSurname TEXT,
     DateOfBirth DATE,
@@ -26,10 +24,10 @@ CREATE TABLE Bk.Account
     UserStatus TEXT,
     Balance      FLOAT,
     MaxBet       INT,
-    FOREIGN KEY (WebUserID) references BK.WebUsers(WebUserID)
+    FOREIGN KEY (UserID) references BK.Users(UserID)
 );
 
-CREATE TABLE BK.Team
+CREATE TABLE BK.Teams
 (
     TeamId SERIAL PRIMARY KEY,
     TeamName TEXT,
@@ -37,7 +35,7 @@ CREATE TABLE BK.Team
     Logo TEXT -- будут храниться локальные пути к фоткам
 );
 
-CREATE TABLE BK.Game
+CREATE TABLE BK.Games
 (
     GameID SERIAL PRIMARY KEY,
     GameStatus TEXT,
@@ -49,8 +47,8 @@ CREATE TABLE BK.Game
     GameResult TEXT,
     GameDate DATE,
     GameTime TIME,
-    FOREIGN KEY (Team1ID) references BK.Team(TeamID) on DELETE CASCADE,
-    FOREIGN KEY (Team2ID) references BK.Team(TeamID) on DELETE CASCADE
+    FOREIGN KEY (Team1ID) references BK.Teams(TeamID) on DELETE CASCADE,
+    FOREIGN KEY (Team2ID) references BK.Teams(TeamID) on DELETE CASCADE
 );
 
 CREATE TABLE BK.Bet
@@ -64,6 +62,6 @@ CREATE TABLE BK.Bet
     Koef FLOAT,
     BetStatus INT,
     PayoutAmount FLOAT,
-    FOREIGN KEY (GameID) references BK.Game(GameID),
+    FOREIGN KEY (GameID) references BK.Games(GameID),
     FOREIGN KEY (AccountID) references BK.Account(AccountId)
 );

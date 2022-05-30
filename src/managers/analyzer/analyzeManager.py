@@ -10,9 +10,6 @@ from errors import *
 class AnalyzeManager(BaseManager):
     def __init__(self):
         self.repo = AnalyzerRepo()
-
-    def viewTeams(self, teamName):
-        return self.repoviewTeams(teamName)
     
     def addGame(self, id1Team, id2Team, p1, p2, p3, dateMatch, timeMatch):
         errorCode = ValidateGameManager().validate(id1Team, id2Team, p1, p2, p3, dateMatch, timeMatch)
