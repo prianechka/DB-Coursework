@@ -118,7 +118,6 @@ AS
             SELECT Acc.accountid, B.payoutamount
             FROM BK.bet as B JOIN BK.Account as Acc on Acc.accountid = B.accountid
             WHERE B.GameID = id and B.betstatus = 1;
-
         BEGIN
             OPEN allAccs;
             LOOP

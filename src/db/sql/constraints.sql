@@ -10,13 +10,9 @@ ALTER TABLE BK.Account
 ALTER TABLE BK.Account
     ADD CONSTRAINT correctStatus CHECK (UserStatus = 'Active' OR UserStatus = 'On Verify' OR UserStatus = 'Blocked');
 
-ALTER TABLE BK.Account
-    ADD CONSTRAINT correctMaxSum CHECK (MaxBet <= 1000 AND MaxBet >= 10);
-
 ALTER TABLE BK.Games
     ADD CONSTRAINT correctCoefs CHECK (W1Coef > 1 AND W2Coef > 1 AND DrawCoef > 1);
 
--- Здесь на уровне БД проверяется, что коэффициенты составлены с маржой, то есть вилки нет
 ALTER TABLE BK.Games
     ADD CONSTRAINT correctSumCoef CHECK ((1 / W1Coef + 1 / W2Coef + 1 / DrawCoef) > 1);
 
@@ -29,7 +25,6 @@ ALTER TABLE BK.Bet
 ALTER TABLE BK.Bet
     ADD CONSTRAINT correctBetSize CHECK (BetSize >= 10 AND BetSize <= 1000);
 
--- Правильный коэффициент
 ALTER TABLE BK.Bet 
     ADD CONSTRAINT correctCoefBet CHECK (Koef > 1);
 

@@ -41,8 +41,6 @@ Postgres \cite{postgresql} -- это свободно распространяе
 \end{lstinputlisting}
 \FloatBarrier
 
-\newpage
-
 На листинге 3.3 представлен код получения таблицы матчей в текущей линии:
 \FloatBarrier
 \begin{lstinputlisting}[language=SQL, caption=Получение таблицы матчей в текущей линии, linerange = {78-101},
@@ -65,7 +63,6 @@ Postgres \cite{postgresql} -- это свободно распространяе
 \end{lstinputlisting}
 \FloatBarrier
 
-\newpage
 На листинге 3.6 представлен код процедуры обновления баланса пользователей:
 \FloatBarrier
 \begin{lstinputlisting}[language=SQL, caption=Обновление балансов пользователй, linerange = {112-134},
@@ -150,9 +147,9 @@ Postgres \cite{postgresql} -- это свободно распространяе
 Игрок выбирает сумму пополнения, после чего при нажатии кнопки пополнения баланс успешно пополняется.
 
 \FloatBarrier
-\begin{figure}[hp]	
+\begin{figure}[h]	
 	\begin{center}
-		\includegraphics[width=\linewidth]{inc/balance.png}
+		\includegraphics[height = 6cm, width=\linewidth]{inc/balance.png}
 	\end{center}
 	\caption{Экран пополнения баланса}
 	\label{fig::balance}
@@ -169,9 +166,9 @@ Postgres \cite{postgresql} -- это свободно распространяе
 После нажатия кнопки выполнения ставки программа оценит валидность введённых данных, и, в случае успеха, выдаст информационное сообщение.
 
 \FloatBarrier
-\begin{figure}[hp]	
+\begin{figure}[h]	
 	\begin{center}
-		\includegraphics[width=\linewidth]{inc/bet.png}
+		\includegraphics[height = 7cm, width=\linewidth]{inc/bet.png}
 	\end{center}
 	\caption{Экран выполнения ставок}
 	\label{fig::bet}
@@ -183,12 +180,12 @@ Postgres \cite{postgresql} -- это свободно распространяе
 
 Игрок может увидеть в таблице все события, которые присутствуют в линии в данный момент.
 Для выбора события, на которое нужно сделать ставку, пользователь должен выделить строку с нужным событием.
-Слева внизу игрок может выбрать событие для ставки, а также сумму, на которую он хочет заключить пари.
+Слева внизу игрок может выбрать событие для ставки, а также сумму ставки.
 
 После нажатия кнопки выполнения ставки программа оценит валидность введённых данных, и, в случае успеха, выдаст информационное сообщение.
 
 \FloatBarrier
-\begin{figure}[hp]	
+\begin{figure}[h]	
 	\begin{center}
 		\includegraphics[width=\linewidth]{inc/history.png}
 	\end{center}
@@ -209,7 +206,7 @@ Postgres \cite{postgresql} -- это свободно распространяе
 Сумма вероятностей должна быть равна 100\%.
 
 \FloatBarrier
-\begin{figure}[hp]	
+\begin{figure}[h]	
 	\begin{center}
 		\includegraphics[width=\linewidth]{inc/addMatch.png}
 	\end{center}
@@ -225,13 +222,12 @@ Postgres \cite{postgresql} -- это свободно распространяе
 В таблице представлены матчи, добавленные аналитиком в предыдущем окне.
 Для изменения состояния матча или изменения счёта нужно нажать на строку с событием, а затем нажать на требуемую кнопку внизу таблицы.
 
-Также внизу аналитик может изменить вероятности наступления событий. 
-Сумма вероятностей должна быть равна 100\%.
+Также внизу аналитик может изменить вероятности наступления событий.
 
 \FloatBarrier
-\begin{figure}[hp]	
+\begin{figure}[h]	
 	\begin{center}
-		\includegraphics[width=\linewidth]{inc/matches.png}
+		\includegraphics[height=6cm, width=\linewidth]{inc/matches.png}
 	\end{center}
 	\caption{Экран изменения матчей в линию}
 	\label{fig::change}
@@ -246,7 +242,7 @@ Postgres \cite{postgresql} -- это свободно распространяе
 В зависимости от введённых данных аналитик может либо верифицировать аккаунт, либо заблокировать.
 
 \FloatBarrier
-\begin{figure}[hp]	
+\begin{figure}[h]	
 	\begin{center}
 		\includegraphics[width=\linewidth]{inc/verify.png}
 	\end{center}

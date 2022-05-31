@@ -184,3 +184,4 @@ AS $$
         GROUP BY A.accountid, W.userlogin;
     end;
 $$ language plpgsql;
+

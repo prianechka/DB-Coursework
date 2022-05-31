@@ -3,51 +3,58 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: report.aux
 A level-1 auxiliary file: 01-introduction.aux
 A level-1 auxiliary file: 1-analyze.aux
+A level-1 auxiliary file: 2-construct.aux
+A level-1 auxiliary file: 3-technologic.aux
+A level-1 auxiliary file: 4-research.aux
+A level-1 auxiliary file: conclusion.aux
 The style file: utf8gost705u.bst
 Database file #1: source.bib
-I was expecting a `,' or a `}'---line 14 of file source.bib
- :  title = "Федеральный закон 'О противодействии легализации (отмыванию) доходов, полученных преступным путем, и финансированию терроризма" 
- :                                                                                                                                                                                                                                                        от 07.08.2001 N 115-ФЗ (последняя редакция)'",
+You're missing a field part---line 19 of file source.bib
+ :  title = 
+ :          'Федеральный закон "О государственном регулировании деятельности по организации и проведению азартных игр и о внесении изменений в некоторые законодательные акты Российской Федерации"',
 I'm skipping whatever remains of this entry
-You've used 7 entries,
+Warning--I didn't find a database entry for "bk2"
+Warning--I didn't find a database entry for "postgresql-fact"
+Warning--I didn't find a database entry for "intel"
+You've used 3 entries,
             2958 wiz_defined-function locations,
-            692 strings with 6878 characters,
-and the built_in function-call counts, 954 in all, are:
-= -- 103
-> -- 19
+            686 strings with 5617 characters,
+and the built_in function-call counts, 512 in all, are:
+= -- 55
+> -- 15
 < -- 2
-+ -- 10
++ -- 6
 - -- 3
-* -- 22
-:= -- 96
-add.period$ -- 15
-call.type$ -- 7
+* -- 18
+:= -- 57
+add.period$ -- 7
+call.type$ -- 3
 change.case$ -- 0
 chr.to.int$ -- 0
-cite$ -- 7
-duplicate$ -- 54
-empty$ -- 121
+cite$ -- 3
+duplicate$ -- 26
+empty$ -- 57
 format.name$ -- 3
-if$ -- 241
+if$ -- 125
 int.to.chr$ -- 0
-int.to.str$ -- 7
+int.to.str$ -- 3
 missing$ -- 0
-newline$ -- 45
+newline$ -- 25
 num.names$ -- 3
-pop$ -- 49
+pop$ -- 25
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 25
+skip$ -- 16
 stack$ -- 0
 substring$ -- 0
-swap$ -- 23
+swap$ -- 10
 text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 0
 while$ -- 1
-width$ -- 8
-write$ -- 88
+width$ -- 4
+write$ -- 43
 (There was 1 error message)

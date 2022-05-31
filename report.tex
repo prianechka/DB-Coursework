@@ -1,19 +1,20 @@
+% !TeX TXS-program:compile = txs:///lualatex/[--shell-escape]
 \documentclass[a4paper,14pt, unknownkeysallowed]{extreport}
 
 \include{preambul}
 
 \begin{document}
+	\setmainfont{Times New Roman}
 	\def\contentsname{Содержание}
-	%\include{title}
 	\tableofcontents
 	\include{01-introduction}
 	
 	\include{1-analyze}
 	\include{2-construct}
 	\include{3-technologic}
-	%\include{4-research}
+	\include{4-research}
 	
-	%\include{conclusion}
+	\include{conclusion}
 	
 	\addcontentsline{toc}{chapter}{Список литературы}
 	\bibliographystyle{utf8gost705u} 
