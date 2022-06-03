@@ -1,5 +1,10 @@
 \section{Конструкторский раздел}
-В этом разделе будет проведено проектирование базы данных и приложения, а также приведены схемы разрабатываемых алгоритмов.
+В этом разделе будет проведено проектирование базы данных и приложения.
+Будут приведены созданные таблицы, поля таблиц с указанием их семантического смысла.
+Будет представлена ER-модель созданной базы данных.
+Будет разработана UML-диаграмма разрабатываемого приложения.
+Будет выбран тип приложения.
+Будут представлены схемы основных алгоритмов, необходимых для функционирования букмекерской конторы.
 
 \subsection{Проектирование базы данных}
 База данных приложения будет реализована с помощью следующих страниц:
@@ -83,6 +88,7 @@ ER-модель БД в нотации Crow’s Foot представлена н
 	\begin{center}
 		\includegraphics[width=\linewidth]{inc/scheme.png}
 	\end{center}
+	\captionsetup{justification=centering, labelsep=defffis}
 	\caption{ER-модель базы данных в нотации Crow’s Foot}
 	\label{fig::scheme}
 \end{figure}
@@ -93,8 +99,10 @@ ER-модель БД в нотации Crow’s Foot представлена н
 \begin{enumerate}
 	\item Реальные букмекерские конторы разрабатывают версии программного обеспечения для ПК, так как это позволяет пользователям удобнее и быстрее взаимодействовать с системой.
 	\item Desktop-приложение не предоставляет дополнительных требований к времени ответу системы, как, например, высоконагруженный сервис. 
+	\item Автор имеет опыт разработки Desktop приложений.
 \end{enumerate}
 
+Выбранный тип приложения позволяет перейти к непосредственно её проектированию.
 \subsection{Проектирование приложения}
 Структура приложения основана на парадигмах ООП. 
 
@@ -122,6 +130,7 @@ ER-модель БД в нотации Crow’s Foot представлена н
 	\begin{center}
 		\includegraphics[angle=90, width=\linewidth, height=16cm]{inc/uml.png}
 	\end{center}
+	\captionsetup{justification=centering, labelsep=defffis}
 	\caption{UML-диаграмма классов}
 	\label{fig::uml}
 \end{figure}
@@ -151,6 +160,7 @@ ER-модель БД в нотации Crow’s Foot представлена н
 	\begin{center}
 		\includegraphics[width=\linewidth]{inc/auth.png}
 	\end{center}
+	\captionsetup{justification=centering, labelsep=defffis}
 	\caption{Схема алгоритма работы программы при авторизации}
 	\label{fig::auth}
 \end{figure}
@@ -178,6 +188,7 @@ ER-модель БД в нотации Crow’s Foot представлена н
 	\begin{center}
 		\includegraphics[height=18cm, width=\linewidth]{inc/updateFlow.png}
 	\end{center}
+	\captionsetup{justification=centering, labelsep=defffis}
 	\caption{Схема алгоритма обновления состояния матча}
 	\label{fig::update}
 \end{figure}
