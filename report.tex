@@ -1,11 +1,13 @@
 % !TeX TXS-program:compile = txs:///lualatex/[--shell-escape]
-\documentclass[a4paper,14pt, unknownkeysallowed]{extreport}
+\documentclass[ut8x, 14pt, oneside, a4paper]{extarticle}
 
 \include{preambul}
 
 \begin{document}
+	\includepdf[pages=-]{title.pdf}
 	\setmainfont{Times New Roman}
-	\def\contentsname{Содержание}
+	\include{00-abstract}
+	\def\contentsname{СОДЕРЖАНИЕ}
 	\tableofcontents
 	\include{01-introduction}
 	
@@ -16,7 +18,59 @@
 	
 	\include{conclusion}
 	
-	\addcontentsline{toc}{chapter}{Список литературы}
-	\bibliographystyle{utf8gost705u} 
-	\bibliography{source}
+	\addcontentsline{toc}{section}{СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ}
+	\renewcommand\bibname{СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ}
+	\begingroup
+	\renewcommand{\anonsection}[2]{}
+	\begin{thebibliography}{}
+		\bibitem{bk}
+		Федеральный закон от 29.12.2006 N 244-ФЗ (последняя редакция) «О государственном регулировании деятельности по организации и проведению азартных игр и о внесении изменений в некоторые законодательные акты Российской Федерации» // Собрание законодательства РФ,  29.12.2006. – N 244. – Ст.6.
+		
+		\bibitem{bk2}
+		Федеральный закон от 07.08.2001 N 115-ФЗ (последняя редакция) «О противодействии легализации (отмыванию) доходов, полученных преступным путем, и финансированию терроризма» // Собрание законодательства РФ,  07.08.2001. – N 115. – Ст.7.
+		
+		\bibitem{postgresql}
+		PostgreSQL: Документация. [Электронный ресурс]. – Режим доступа: 
+		\url{https://postgrespro.ru/docs/postgresql/} свободный – (31.05.2022).
+		
+		\bibitem{kfs}
+		Matthew Zhou «Optimal Bookmaking» // European Journal of Operational Research. 2021 Vol. 285. P. 10.
+		
+		
+		\bibitem{dbms}
+		Когаловский М.Р. «Энциклопедия технологий баз данных.» — М.: Финансы и статистика, 2002. — 800 с.
+		
+		\bibitem{psycopg2}
+		Psycopg – PostgreSQL database adapter for Python [Электронный ресурс]. – Режим доступа: 
+		\url{https://www.psycopg.org/docs/} свободный – (31.05.2022).
+		
+		\bibitem{ubuntu}
+		Ubuntu 20.04.3 LTS (Focal Fossa) [Электронный ресурс]. – Режим доступа: 
+		\url{https://releases.ubuntu.com/20.04/} свободный – (31.05.2022).
+		
+		\bibitem{intel}
+		Процессор Intel® Core™ i5-1135G7 [Электронный ресурс]. – Режим доступа: 
+		\url{https://www.intel.ru/content/www/ru/ru/products/sku/208658/intel-core-i51135g7-processor-8m-cache-up-to-4-20-ghz/specifications.html} свободный – (31.05.2022).
+
+	\end{thebibliography}
+	\endgroup
+	\newpage
+	\anonsection{ПРИЛОЖЕНИЕ А}
+	На листинге 8 представлен код создания таблиц базы данных, перечисленных в конструкторском разделе.
+	\FloatBarrier
+	\begin{lstinputlisting}[language=SQL, caption=Создание таблиц в БД, 
+		basicstyle=\footnotesize\ttfamily, frame=single,breaklines=true]{src/db/sql/create.sql}
+	\end{lstinputlisting}
+	\FloatBarrier
+	
+	\clearpage
+	
+	\anonsection{ПРИЛОЖЕНИЕ Б}
+	\FloatBarrier
+	\begin{lstinputlisting}[language=SQL, caption=Создание ограничений на таблицы, 
+		basicstyle=\footnotesize\ttfamily, frame=single,breaklines=true]{src/db/sql/constraints.sql}
+	\end{lstinputlisting}
+	\FloatBarrier
+	%\bibliographystyle{utf8gost705u} 
+	%\bibliography{source}
 \end{document}

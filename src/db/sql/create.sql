@@ -1,5 +1,4 @@
 DROP SCHEMA BK cascade;
-
 CREATE SCHEMA BK;
 
 CREATE TABLE BK.Users
@@ -7,12 +6,11 @@ CREATE TABLE BK.Users
     UserID SERIAL PRIMARY KEY,
     UserLogin TEXT UNIQUE,
     UserPassword TEXT,
-    UserRole TEXT
-);
+    UserRole TEXT);
 
 CREATE TABLE Bk.Account
 (
-    AccountId    SERIAL PRIMARY KEY,
+    AccountId SERIAL PRIMARY KEY,
     UserID INT,
     UserName TEXT,
     UserSurname TEXT,
@@ -22,18 +20,16 @@ CREATE TABLE Bk.Account
     Email TEXT,
     CreationDate DATE,
     UserStatus TEXT,
-    Balance      FLOAT,
-    MaxBet       INT,
-    FOREIGN KEY (UserID) references BK.Users(UserID)
-);
+    Balance FLOAT,
+    MaxBet INT,
+    FOREIGN KEY (UserID) references BK.Users(UserID));
 
 CREATE TABLE BK.Teams
 (
     TeamId SERIAL PRIMARY KEY,
     TeamName TEXT,
     TeamCity TEXT,
-    Logo TEXT -- будут храниться локальные пути к фоткам
-);
+    Logo TEXT);
 
 CREATE TABLE BK.Games
 (

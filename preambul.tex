@@ -19,7 +19,6 @@
 \usepackage{ragged2e}
 \justifying
 
-
 \usepackage{amsmath}
 
 \usepackage{setspace}
@@ -33,20 +32,61 @@
 {\normalsize\bfseries}
 {\thesection}
 {1em}{}
-\titlespacing*{\chapter}{0pt}{-30pt}{8pt}
 \titlespacing*{\section}{\parindent}{*4}{*4}
 \titlespacing*{\subsection}{\parindent}{*4}{*4}
 
 \usepackage{titlesec}
-\titleformat{\chapter}{\LARGE\bfseries}{\thechapter}{20pt}{\LARGE\bfseries}
-\titleformat{\section}{\Large\bfseries}{\thesection}{20pt}{\Large\bfseries}
+%\titleformat{\section}{\Large\bfseries}{\thesection}{20pt}{\Large\bfseries}
 
+\titleformat{name=\section}[block]
+{\normalfont\Large\bfseries\hspace{\parindent}}
+{\thesection}
+{1em}
+{}
+\titleformat{name=\section,numberless}[block]
+{\normalfont\Large\bfseries\centering}
+{}
+{0pt}
+{}
+
+\newcommand{\anonsection}[1]{%
+	\section*{\centering#1}%
+	\addcontentsline{toc}{section}{#1}%
+}
 \usepackage[figurename=Рисунок]{caption}
 \usepackage{placeins}
 
 \usepackage{caption}
 \captionsetup{justification=raggedright,singlelinecheck=false}
+\addto\captionsrussian{\def\refname{Список использованных источников}}
+\usepackage{url}
 
 \usepackage{cmap} % Улучшенный поиск русских слов в полученном pdf-файле
 \usepackage{fontspec}
+\usepackage{pdfpages}
+
+\usepackage[square,numbers,sort&compress]{natbib}
+\renewcommand{\bibnumfmt}[1]{#1.\hfill}
 \setmainfont{Times New Roman}
+
+\makeatletter
+\renewenvironment{thebibliography}[1]
+{\section*{\bibname}% <-- this line was changed from \chapter* to \section*
+	\@mkboth{\MakeUppercase\bibname}{\MakeUppercase\bibname}%
+	\list{\@biblabel{\@arabic\c@enumiv}}%
+	{\settowidth\labelwidth{\@biblabel{#1}}%
+		\leftmargin\labelwidth
+		\advance\leftmargin\labelsep
+		\@openbib@code
+		\usecounter{enumiv}%
+		\let\p@enumiv\@empty
+		\renewcommand\theenumiv{\@arabic\c@enumiv}}%
+	\sloppy
+	\clubpenalty4000
+	\@clubpenalty \clubpenalty
+	\widowpenalty4000%
+	\sfcode`\.\@m}
+{\def\@noitemerr
+	{\@latex@warning{Empty `thebibliography' environment}}%
+	\endlist}
+\makeatother

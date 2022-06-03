@@ -25,9 +25,6 @@ ALTER TABLE BK.Bet
 ALTER TABLE BK.Bet
     ADD CONSTRAINT correctBetSize CHECK (BetSize >= 10 AND BetSize <= 1000);
 
-ALTER TABLE BK.Bet 
-    ADD CONSTRAINT correctCoefBet CHECK (Koef > 1);
-
 ALTER TABLE BK.Bet
     ADD CONSTRAINT correctBetStatus CHECK (BetStatus = 0 OR BetStatus = 1 OR BetStatus = -1);
 
