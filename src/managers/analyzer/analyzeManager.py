@@ -49,8 +49,6 @@ class AnalyzeManager(BaseManager):
 
         if errorCode == OK:
             k1, k2, k3 = AnalyzerHelper().createCoefs(p1, p2, p3)
-            for i in range(200):
-                self.repo.addGame(id1Team, id2Team, k1, k2, k3, dateMatch, timeMatch)
             return self.repo.addGame(id1Team, id2Team, k1, k2, k3, dateMatch, timeMatch)
         else:
             return errorCode, []
